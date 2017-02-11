@@ -2,11 +2,80 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <script src="script/jquery-3.1.1.min.js"></script>
+        <link rel="stylesheet/less" href="style/less/zing.less">
+        <script src="script/less.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,700|Poiret+One|Raleway:300,400,500,800" rel="stylesheet">
+        <script src="script/keybordInputManager.js"></script>
         <title>2048</title>
     </head>
     <body>
         <div class="container">
-            <div class="row"></div>
+            <div class="row">
+                <h1 class="main-title"><span class="title-game">2048</span> W@C édition</h1>
+                <div class="score-container">
+                    <span class="title-score">Score</span>
+                    <span class="score">0</span>
+                </div>
+                <div class="best-container">
+                    <span class="title-score">Score</span>
+                    <span class="score">0</span>
+                </div>
+            </div>
+            <div class="row">
+                <h2 class="second-title">Fusionner les chiffres et faîtes 2048</h2>
+                <div class="new-game">new game</div>
+            </div>
+            <div class="row">
+                <!-- div contenant le tableau du jeu -->
+                <div class="game-container">
+                    <!-- div contenant la grille du jeu -->
+                    <div class="grid-game">
+                        <!-- div contenant la ligne du jeu -->
+                        <div class="grid-row">
+                            <!-- div contenant la cellule du jeu -->
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                        </div>
+                        <div class="grid-row">
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                        </div>
+                        <div class="grid-row">
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                        </div>
+                        <div class="grid-row">
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                            <div class="grid-cell"></div>
+                        </div>
+                    </div><!-- End Of .grid-game -->
+                    <!-- Div qui contiendra les tuiles du jeu -->
+                    <div class="tuile-container">
+
+                    </div>
+                </div><!-- End Of .tab-container -->
+            </div><!-- End Of .row -->
+            <div class="game-rules">
+                <h2 class="title-rules">Règles du jeu</h2>
+                <p class="rules">
+                    <strong class="important how-play">Comment jouer : </strong>
+                    Utiliser les <strong class="important">flèches directionnelles</strong> pour déplacer les cases. Lorsque 2 cases avec le même chiffre sont côte à côte, alors <strong class="important">elles fusionnent en une seule.</strong>
+                    Le but étant de faire une tuile de la valeur <strong class="important">2048 !</strong>
+                    <strong class="important">La touche R</strong> permet de recharger la page.
+                </p>
+            </div><!-- End Of .game-rules -->
         </div>
+        <footer class="main-footer">
+            <span class="copyright">2048 &copy; LilSaint - Web@cademie Ambition Féminine</span>
+        </footer>
     </body>
 </html>
