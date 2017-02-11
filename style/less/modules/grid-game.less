@@ -1,0 +1,45 @@
+///* ------------------- */
+///* *** GRID-GAMES *** */
+///* ------------------- */
+
+/* Grid background */
+.game-container {
+    .box-sizing;
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: @color-bg-4;
+
+}
+
+/* Grille du jeu */
+.grid-game {
+    position: absolute;
+    z-index: 1;
+    /* Ligne du jeu */
+    .grid-row {
+        .flex;
+        margin-bottom: 15px;
+
+        &:after {
+            content: "";
+            display: block;
+        }
+        /* Cellule du jeu */
+        .grid-cell {
+            width: 106.25px;
+            height: 106.25px;
+            margin-right: 15px;
+            background-color: @color-blue-1;
+            border-radius: 3px;
+        }
+    }
+}
+
+.tuile-container {
+    position: absolute;
+    z-index: 2;
+}

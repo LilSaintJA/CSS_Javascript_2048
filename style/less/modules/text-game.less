@@ -1,0 +1,50 @@
+/* ------------------- */
+/* *** TEXT-GAME *** */
+/* ------------------- */
+
+/* Text Settings */ 
+/* h1 */
+.title-game {
+    font-family: @font-heading;
+    font-size: @h1-size;
+}
+
+/* h2 */
+.title-rules {
+    margin-bottom: 15px;
+}
+
+/* strong */
+.important {
+    font-weight: 500;
+}
+
+.how-play {
+    text-transform: uppercase;
+}
+
+.score-container,
+.best-container {
+    position: relative;
+    .flex(@direction:column);
+    height: 80px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin-left: 30px;
+    background-color: @color-bg-4;
+    font-family: @font-monospace;
+    color: @base-link-color;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 1px;
+
+    .title-score {
+        margin-bottom: 5px;
+    }
+
+    .score {
+        font-family: @font-heading;
+        font-size: @h6-size;
+    }
+}

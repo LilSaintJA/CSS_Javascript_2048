@@ -1,0 +1,125 @@
+///* ------------------- */
+///* *** VARIABLES *** */
+///* ------------------- */
+
+// *** Media Queries config
+//
+// """***""" Default setting
+
+// --- Portable Landscape & Portrait
+@smartphones             : ~'only screen and (max-device-width: 479px)';
+// --- Tablettes Landscape & Portrait
+@tablettes               : ~'only screen and (max-width: 1024px)';
+
+// *** Containers config
+//
+// """***""" Utility size for containers
+
+@default-container-width         : 100%; // typically majors sections including the containers
+@container-max-width             : 500px; // ~ equiv "1080px" -> center your contents in the containers
+@height-navigation               : 100px;
+
+// ---- Game colors
+
+// ## Palette background
+@color-bg-0: #595E60;
+@color-bg-1: #607176;
+@color-bg-2: #4D5356;
+@color-bg-3: #414A4D;
+@color-bg-4: #364043;
+
+// ## Palette verte
+@color-green-0: #00AA72;
+@color-green-1: #4ABF99;
+@color-green-2: #27AF82;
+@color-green-3: #008358;
+@color-green-4: #006745;
+
+@rgba-green-0: rgba(  0,170,114,1);
+@rgba-green-1: rgba( 74,191,153,1);
+@rgba-green-2: rgba( 39,175,130,1);
+@rgba-green-3: rgba(  0,131, 88,1);
+@rgba-green-4: rgba(  0,103, 69,1);
+
+// ## Palette bleu
+@color-blue-0: #09C2FF;	
+@color-blue-1: #A7E9FF;
+@color-blue-2: #75DDFF;
+@color-blue-3: #006687;
+@color-blue-4: #004E68;
+
+@rgba-blue-0: rgba(  9,194,255,1);
+@rgba-blue-1: rgba(167,233,255,1);
+@rgba-blue-2: rgba(117,221,255,1);
+@rgba-blue-3: rgba(  0,102,135,1);
+@rgba-blue-4: rgba(  0, 78,104,1);
+
+// *** Typography, Background
+//
+// """***""" Font, line-height, and color for body text, headings, and more.
+
+// ---- Font Stacks
+// Raleway, Oswald, Poiret One, are just exemples of typos for your website. 
+@font-common           : 'Raleway', sans-serif;     // Common font
+@font-heading          : 'Oswald', sans-serif;      // Heading font
+@font-monospace        : 'Poiret One', cursive;     // Mononspace font
+
+// ---- Font size
+// For html font-size = 12px
+@base-font-size        : 1.167rem;      // ex. 1.167rem would be "14px" equivalent
+@h1-size               : 5rem;      // equiv "42px"
+@h2-size               : 1.125rem;      // equiv "18px"
+@h3-size               : 2.5rem;        // equiv "30px"
+@h4-size               : 2.333rem;      // equiv "28px"
+@h5-size               : 2.167rem;      // equiv "26px"
+@h6-size               : 2rem;          // equiv "24px"
+@p-size                : 1.333rem;      // equiv "16px"
+
+// ---- Line-height
+@line-height-large      : 1.7rem;        // equiv "17px"
+@line-height-small      : 1.5rem;        // equiv "25px"
+@line-height-header    : 5.5rem;        // equiv "55px"
+@line-height-nav       : 3.5rem;        // equiv "35px"
+
+// ---- Font colors
+@base-font-color       : #D8D2C9;                      // text color on body and general contents
+@primary-font-color    : #000;                      // text color on primary contents 
+@secondary-font-color  : #000;                      // text color on secondary contents
+@h1-color              : @color-blue-4;             // text color for heading level 1 ex: h1
+@h2-color              : @color-blue-3;             // text color for heading level 2 ex: h2
+@h3-color              : #000;                      // text color for heading level 3 ex: h3
+@h4-color              : #000;                      // text color for heading level 4 ex: h4
+@base-link-color       : #D8D2C9;                   // base link color
+@base-link-color-hover : #2E3842;                   // base link color hovered& focused
+
+// ---- Background colors
+@background-color      : #DDD;          // Body background color
+@primary-color         : #DDD;          // Primary background color ex: section, navbar
+@secondary-color       : #DDD;          // Secondary background color ex: article, aside
+
+// ---- Gradients
+@gradient01            : rgba(255, 255, 255, .25);     // Gradients elements 01
+@gradient02            : rgba(0, 0, 0, .5);            // Gradients elements 02
+
+// *** Spacing
+//
+// """***""" Margin, padding, and others stuffs
+@skinny-value               : .225rem;     // skinny value for margin/padding or border-radius
+@tiny-value                 : .3rem;       // tiny value for margin/padding or border-radius
+@tiny-plus-value            : .7rem;       // tiny+ value for margin/padding or border-radius
+@small-value                : 1rem;        // small value for margin/padding or border-radius
+@small-plus-value           : 2rem;        // small+ value for margin/padding or border-radius
+@medium-value               : 2.5rem;      // medium value for margin/padding or border-radius
+@medium-plus-value          : 3rem;        // medium+ value for margin/padding or border-radius
+@large-value                : 5rem;        // large value for margin/padding or border-radius
+@large-plus-value           : 5.5rem;      // large+ value for margin/padding or border-radius
+@extra-large-value          : 8rem;        // extra-large value for margin/padding or border-radius
+@extra-large-plus-value     : 12rem;       // extra-large+ value for margin/padding or border-radius
+@ultra-large-value          : 15rem;       // ultra-large value for margin/padding or border-radius
+@ultra-large-plus-value     : 20rem;       // ultra-large+ value for margin/padding or border-radius
+
+// ---- Grid variables 
+@gutter                : 3rem;         // gutter value for grid layouts, change units if you want (%, px, em, rem)
+@number-columns        : 4;            // number's equal columns
+@left-side             : 1;            // left side of uneven columns
+@right-side            : 1;            // right side of uneven columns&é"

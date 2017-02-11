@@ -1,0 +1,31 @@
+/* ------------------- */
+/* *** LAYOUT *** */
+/* ------------------- */
+/*
+*** Layout is styling the major components of the page 
+*** ex : header, footer
+*** See https://smacss.com/book/type-layout
+*/
+// --------------------------
+/*
+*** Top level of the Website
+*/
+
+.container {
+    .flex(@direction:column);
+    .align-items(@align:flex-start);
+    width: @container-max-width;
+    height: auto;
+    padding: @large-value 0;
+    margin: 0 auto;
+    .box-sizing();
+}
+
+.row {
+    margin-bottom: 30px;
+    .flex;
+}
+// --------------------------
+/*
+*** Main sections of the website
+*/
