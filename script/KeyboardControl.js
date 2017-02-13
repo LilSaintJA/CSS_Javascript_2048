@@ -1,19 +1,19 @@
 /*global console, $, jQuery, document, window */
 
 /**
-     * Fonction de débug
-     * @param {data} D [La data à débuguer]
-     */
+ * Fonction de débug
+ * @param {data} D [La data à débuguer]
+ */
 function log(D) {
     'use strict';
     console.log(D);
 }
 
-log('Object Is Ready');
+log('Je suis le KeyboardControl');
 
 /**
-     * [[Description]]
-     */
+ * Gère les déplacements par le clavier
+ */
 function KeyboardControl() {
     'use strict';
     // Appel de la méthode listen qui gére l'écouteur de touche clavier
@@ -21,8 +21,8 @@ function KeyboardControl() {
 }
 
 /**
-     * Fonction qui écoute les touches du clavier
-     */
+ * Fonction qui écoute les touches du clavier
+ */
 KeyboardControl.prototype.listen = function () {
     'use strict';
     var map = {
@@ -31,7 +31,7 @@ KeyboardControl.prototype.listen = function () {
         40: 2, // Touche DOWN
         37: 3  // Touche LEFT
     };
-    log('Je suis la clef');
+    //    log('Je suis la clef');
 
     $(document).keydown(function (event) {
 
@@ -42,9 +42,6 @@ KeyboardControl.prototype.listen = function () {
 
         log(specialKey);
 
-        //            if (mapped === 1) {
-        //                log('Hello');
-        //            }
         switch (mapped) {
             case 0:
                 log('Touch Up');
@@ -61,7 +58,3 @@ KeyboardControl.prototype.listen = function () {
         }
     });
 };
-
-// Instanciation de l'objet
-var test = new KeyboardControl();
-//    log(test.listen());
