@@ -1,0 +1,52 @@
+/* ------------------- */
+/* *** BUTTONS *** */
+/* ------------------- */
+
+.btn {
+    .inline-flex;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: center;
+    background-image: none;
+    border: 1px solid transparent;
+    .btn-size(@padding-base-vertical; @padding-base-horizontal; @base-font-size; @line-height-base; @btn-border-radius-base);
+}
+
+/* Alternative buttons */
+.btn-default {
+    .btn-variant(@btn-base-color, @btn-base-bg, @btn-base-border);
+}
+
+.btn-primary {
+    .btn-variant(@btn-primary-color, @btn-primary-bg, @btn-primary-border);
+}
+
+.btn-success {
+    .btn-variant(@btn-success-color, @btn-success-bg, @btn-success-border);
+}
+
+.btn-info {
+    .btn-variant(@btn-info-color, @btn-info-bg, @btn-info-border);
+}
+
+.btn-warning {
+    .btn-variant(@btn-warning-color, @btn-warning-bg, @btn-warning-border);
+}
+
+.btn-danger {
+    .btn-variant(@btn-danger-color, @btn-danger-bg, @btn-danger-border);
+}
+
+.btn-game {
+    .btn-variant(@btn-game-color, @btn-game-bg, @btn-game-border);
+}
+
+/* Buttons size */
+
+.btn-large {
+    .btn-size(@padding-large-vertical, @padding-large-horizontal, @font-size-large, @line-height-large, 5px);
+}
+
+.btn-small {
+    .btn-size(@padding-small-vertical, @padding-small-horizontal, @font-size-small, @line-height-small, 3px);
+}
