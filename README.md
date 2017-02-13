@@ -1,4 +1,8 @@
 # CSS_Javascript_2048
-Gestion des tiles du jeu
 
-Gestion des déplacements, et fusion des tiles
+Développement des fonctionnalités de base
+
+Génération des tiles
+
+Déplacement et fusion des tiles
+
