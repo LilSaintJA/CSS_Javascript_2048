@@ -12,4 +12,4 @@ function log(D) {
 function TileControl(position, value) {
     'use strict';
     log('Je suis le TileControl');
-};
+}
