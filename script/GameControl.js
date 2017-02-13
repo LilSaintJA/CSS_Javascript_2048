@@ -1,4 +1,13 @@
 /*global console, $, jQuery, document, window, GridControl, Grid */
+
+/**
+ * Fonction de débug
+ * @param {data} D [La data à débuguer]
+ */
+function log(D) {
+    'use strict';
+    console.log(D);
+}
 /**
  * Gestionnaire du jeu
  * @param {int} size           [Taille de la grille]
@@ -63,15 +72,25 @@ GameControl.prototype.addStartTiles = function () {
     var i;
     // La boucle génére le nbr de tuiles de départ, par rapport à la valeur de startTiles
     for (i = 0; i < this.startTiles; i += 1) {
-        this.randomTiles();
+        this.addRandomTiles();
     }
 };
 
 /**
  * Ajout des cases aléatoires selon leur position
  */
-GameControl.prototype.randomTiles = function () {
+GameControl.prototype.addRandomTiles = function () {
     'use strict';
+    var tile,
+        value;
+    // Methode appartenant à la class GridControl
+    if (this.grid.cellsAvailable()) {
+        value = Math.random() < 0.9 ? 2 : 4;
+        tile = new TileControl(this.grid.randomAvailableCells(), value);
+        log(tile);
+
+        this.grid.insertTile(tile);
+    }
 };
 
 /**
