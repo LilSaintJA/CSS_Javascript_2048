@@ -6,7 +6,7 @@ $(Main);
 function Main() {
     'use strict';
     console.log('jQuery Is Ready');
-    var game = new GameControl(4, KeyboardControl, HTMLControl, LocalStorageControl),
-        grid = new GridControl();
-    // Instanciation de la class GameControl, qui prend en param les autres class du jeu
+    // Instanciation de la class GameControl, qui appel les autres class du jeu
+    new GameControl(4, KeyboardControl, HTMLControl, LocalStorageControl);
+    //    console.log(game);
 }
