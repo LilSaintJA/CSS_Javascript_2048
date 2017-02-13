@@ -19,12 +19,6 @@
 @container-max-width             : 500px; // ~ equiv "1080px" -> center your contents in the containers
 @height-navigation               : 100px;
 
-@color-primary:         darken(#428bca, 6.5%); // #337ab7
-@color-success:         #5cb85c;
-@color-info:            #5bc0de;
-@color-warning:         #f0ad4e;
-@color-danger:          #d9534f;
-
 // ---- Game colors
 
 // ## Palette background
@@ -34,12 +28,6 @@
 @color-bg-3: #414A4D;
 @color-bg-4: #364043;
 
-@rgba-bg-0: rgba(89, 94, 96, 1);
-@rgba-bg-1: rgba(96, 113, 118, .70);
-@rgba-bg-2: rgba(77, 83, 86, 1);
-@rgba-bg-3: rgba(65, 74, 77, 1);
-@rgba-bg-4: rgba(54, 64, 67, 1);
-
 // ## Palette verte
 @color-green-0: #00AA72;
 @color-green-1: #4ABF99;
@@ -47,11 +35,11 @@
 @color-green-3: #008358;
 @color-green-4: #006745;
 
-@rgba-green-0: rgba(0,170,114,1);
-@rgba-green-1: rgba(74,191,153,1);
-@rgba-green-2: rgba(39,175,130,1);
-@rgba-green-3: rgba(0,131, 88,1);
-@rgba-green-4: rgba(0,103, 69,1);
+@rgba-green-0: rgba(  0,170,114,1);
+@rgba-green-1: rgba( 74,191,153,1);
+@rgba-green-2: rgba( 39,175,130,1);
+@rgba-green-3: rgba(  0,131, 88,1);
+@rgba-green-4: rgba(  0,103, 69,1);
 
 // ## Palette bleu
 @color-blue-0: #09C2FF;	
@@ -60,11 +48,11 @@
 @color-blue-3: #006687;
 @color-blue-4: #004E68;
 
-@rgba-blue-0: rgba(9,194,255,.35);
+@rgba-blue-0: rgba(  9,194,255,1);
 @rgba-blue-1: rgba(167,233,255,1);
 @rgba-blue-2: rgba(117,221,255,1);
-@rgba-blue-3: rgba(0,102,135,1);
-@rgba-blue-4: rgba(0, 78,104,1);
+@rgba-blue-3: rgba(  0,102,135,1);
+@rgba-blue-4: rgba(  0, 78,104,1);
 
 // *** Typography, Background
 //
@@ -78,10 +66,8 @@
 
 // ---- Font size
 // For html font-size = 12px
-@base-font-size        : 1rem;          // ex. 1.167rem would be "14px" equivalent
-@font-size-large       : 1.167rem;
-@font-size-small       : 0.871rem;
-@h1-size               : 5rem;          // equiv "42px"
+@base-font-size        : 1.167rem;      // ex. 1.167rem would be "14px" equivalent
+@h1-size               : 5rem;      // equiv "42px"
 @h2-size               : 1.125rem;      // equiv "18px"
 @h3-size               : 2.5rem;        // equiv "30px"
 @h4-size               : 2.333rem;      // equiv "28px"
@@ -90,11 +76,10 @@
 @p-size                : 1.333rem;      // equiv "16px"
 
 // ---- Line-height
-@line-height-base       : 1.428571429; // 20/14
 @line-height-large      : 1.7rem;        // equiv "17px"
 @line-height-small      : 1.5rem;        // equiv "25px"
-@line-height-header     : 5.5rem;        // equiv "55px"
-@line-height-nav        : 3.5rem;        // equiv "35px"
+@line-height-header    : 5.5rem;        // equiv "55px"
+@line-height-nav       : 3.5rem;        // equiv "35px"
 
 // ---- Font colors
 @base-font-color       : #D8D2C9;                      // text color on body and general contents
@@ -115,64 +100,6 @@
 // ---- Gradients
 @gradient01            : rgba(255, 255, 255, .25);     // Gradients elements 01
 @gradient02            : rgba(0, 0, 0, .5);            // Gradients elements 02
-
-// ---- Components
-@padding-base-vertical:     6px;
-@padding-base-horizontal:   12px;
-
-@padding-large-vertical:    10px;
-@padding-large-horizontal:  16px;
-
-@padding-small-vertical:    5px;
-@padding-small-horizontal:  10px;
-
-@padding-xs-vertical:       1px;
-@padding-xs-horizontal:     5px;
-
-// ---- Border radius
-@border-radius-base:        4px;
-@border-radius-large:       6px;
-@border-radius-small:       3px;
-// """***""" Buttons
-
-// ---- btn settings
-// ## Define background color, font, border color
-
-// -- Base color
-@btn-base-color                : #333;
-@btn-base-bg                   : #FFF;
-@btn-base-border               : #DDD;
-
-// -- Primary Color
-@btn-primary-color             : #FFF;
-@btn-primary-bg                : @color-primary;
-@btn-primary-border            : darken(@btn-primary-bg, 5%);
-
-
-@btn-success-color             : #FFF;
-@btn-success-bg                : @color-success;
-@btn-success-border            : darken(@btn-success-bg, 5%);
-
-@btn-info-color                : #FFF;
-@btn-info-bg                   : @color-info;
-@btn-info-border               : darken(@btn-info-bg, 5%);
-
-@btn-warning-color             : #FFF;
-@btn-warning-bg                : @color-warning;
-@btn-warning-border            : darken(@btn-warning-bg, 5%);
-
-@btn-danger-color              : #FFF;
-@btn-danger-bg                 : @color-danger;
-@btn-danger-border             : darken(@btn-danger-bg, 5%);
-
-@btn-game-color                : #FFF;
-@btn-game-bg                   : @color-green-2;
-@btn-game-border                : darken(@btn-game-bg, 5%);
-
-// ---- Btn border-radius
-@btn-border-radius-base:         @border-radius-base;
-@btn-border-radius-large:        @border-radius-large;
-@btn-border-radius-small:        @border-radius-small;
 
 // *** Spacing
 //

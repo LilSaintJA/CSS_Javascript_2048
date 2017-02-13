@@ -6,13 +6,7 @@
         <link rel="stylesheet/less" href="style/less/zing.less">
         <script src="script/less.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,700|Poiret+One|Raleway:300,400,500,800" rel="stylesheet">
-        <script src="script/Main.js"></script>
-        <script src="script/KeyboardControl.js"></script>
-        <script src="script/GridControl.js"></script>
-        <script src="script/HTMLControl.js"></script>
-        <script src="script/LocalStorageControl.js"></script>
-        <script src="script/GameControl.js"></script>
-
+        <script src="script/keybordInputManager.js"></script>
         <title>2048</title>
     </head>
     <body>
@@ -35,12 +29,6 @@
             <div class="row">
                 <!-- div contenant le tableau du jeu -->
                 <div class="game-container">
-                    <!-- div contenant le message en cas de succès ou d'échec -->
-                    <div class="game-msg">
-                        <p class="msg"></p>
-                        <a href="" class="btn btn-game continue">Continue</a>
-                        <a href="" class="btn btn-game retry">Réessayer</a>
-                    </div><!-- End Of .game-msg -->
                     <!-- div contenant la grille du jeu -->
                     <div class="grid-game">
                         <!-- div contenant la ligne du jeu -->
@@ -74,8 +62,7 @@
                     <div class="tuile-container">
 
                     </div>
-
-                </div><!-- End Of .game-container -->
+                </div><!-- End Of .tab-container -->
             </div><!-- End Of .row -->
             <div class="game-rules">
                 <h2 class="title-rules">Règles du jeu</h2>
