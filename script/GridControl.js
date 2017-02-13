@@ -1,4 +1,4 @@
-/*global console, $, jQuery, document, window, Tuile */
+/*global console, $, jQuery, document, window, TileControl */
 
 function log(D) {
     'use strict';
@@ -70,10 +70,21 @@ GridControl.prototype.fromState = function (state) {
             //            } else {
             //                return null;
             //            }
-            row.push(tile ? new TileControli(tile.position, tile.value) : null);
+            row.push(tile ? new TileControl(tile.position, tile.value) : null);
         }
     }
     return cells;
+};
+
+GridControl.prototype.randomAvailableCells = function () {
+    'use strict';
+
+    var cells = this.availableCells();
+    log(cells.length);
+
+    if (cells.length) {
+        return cells[Math.floor(Math.random() * cells.length)];
+    }
 };
 
 /**
@@ -127,5 +138,5 @@ GridControl.prototype.cellsAvailable = function () {
  */
 GridControl.prototype.insertTile = function (tile) {
     'use strict';
-    this.cells[tile.x][tile.y] = null;
+    this.cells[tile.x][tile.y] = tile;
 };

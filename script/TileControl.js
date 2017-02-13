@@ -9,6 +9,11 @@ function log(D) {
     console.log(D);
 }
 
+/**
+ * [[Description]]
+ * @param {[[Type]]} position [[Description]]
+ * @param {[[Type]]} value    [[Description]]
+ */
 function TileControl(position, value) {
     'use strict';
     log('Je suis le TileControl');

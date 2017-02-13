@@ -8,5 +8,5 @@ function Main() {
     console.log('jQuery Is Ready');
     // Instanciation de la class GameControl, qui appel les autres class du jeu
     var test = new GameControl(4, KeyboardControl, HTMLControl, LocalStorageControl);
-    console.log(test);
+    //    console.log(test);
 }

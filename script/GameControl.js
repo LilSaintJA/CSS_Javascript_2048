@@ -1,4 +1,4 @@
-/*global console, $, jQuery, document, window, GridControl, Grid */
+/*global console, $, jQuery, document, window, GridControl, Grid, TileControl */
 
 /**
  * Fonction de débug
@@ -54,6 +54,7 @@ GameControl.prototype.setup = function () {
         this.over       = false;
         this.won        = false;
         this.continue   = false;
+        log(this.grid);
 
         // Ajoute les tuiles de départ
         this.addStartTiles();
@@ -86,10 +87,11 @@ GameControl.prototype.addRandomTiles = function () {
     // Methode appartenant à la class GridControl
     if (this.grid.cellsAvailable()) {
         value = Math.random() < 0.9 ? 2 : 4;
+        // Methode randomAvailableCells qui appartient à GridControl
         tile = new TileControl(this.grid.randomAvailableCells(), value);
         log(tile);
 
-        this.grid.insertTile(tile);
+        //        this.grid.insertTile(tile);
     }
 };
 
