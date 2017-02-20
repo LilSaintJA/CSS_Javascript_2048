@@ -17,4 +17,55 @@ function log(D) {
 function TileControl(position, value) {
     'use strict';
     log('Je suis le TileControl');
+
+    this.x = position.x;
+    this.y = position.y;
+    this.value = value || 2;
+
+    this.previousPosition = null;
 }
+
+/**
+ * Sauvegarde la position de la tile
+ */
+TileControl.prototype.savePosition = function () {
+    'use strict';
+    // ## Syntaxe d'initialisateur d'object
+    // ## x -> la clef
+    // ## this.x -> la valeur
+    // ## Débug console navigateur -> x et y sont undefined
+    this.previousPosition = {
+        x: this.x,
+        y: this.y
+    };
+    log(this.previousPosition);
+};
+
+/**
+ * Met à jour la position de la tile
+ * @param {object} position [[Description]]
+ */
+TileControl.prototype.updatePosition = function (position) {
+    'use strict';
+    this.x = position.x;
+    this.y = position.y;
+};
+
+/**
+ * [[Description]]
+ * @returns {object} [[Description]]
+ */
+TileControl.prototype.serialize = function () {
+    'use strict';
+    // Débug console navigateur
+    // ## Object qui contient l'object position avec comme clef x et y et comme valeur undefined
+    // ## Contient value qui est undefined
+    log({ position: { x: this.x, y: this.y }, value: this.value });
+    return {
+        position: {
+            x: this.x,
+            y: this.y
+        },
+        value: this.value
+    };
+};
