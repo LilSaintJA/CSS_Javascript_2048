@@ -1,4 +1,4 @@
-/*global console, $, jQuery, document, window */
+/*global console, $, jQuery, document, window, GridControl */
 
 /**
  * Fonction de débug
@@ -22,11 +22,36 @@ function HTMLControl() {
 
     this.score = 0;
 
-    log('TuileContainer');
-    log(this.tuileContainer);
-    log(this.bestContainer);
+    //    log('TuileContainer');
+    //    log(this.tuileContainer);
+    //    log(this.bestContainer);
 }
 
+/**
+ * [[Description]]
+ * @param {[[Type]]} grid     [[Description]]
+ * @param {[[Type]]} metadata [[Description]]
+ */
+HTMLControl.prototype.refresh = function (grid, metadata) {
+    'use strict';
+    log('Je suis la');
+    var self = this;
+    window.requestAnimationFrame(function () {
+        grid.cells.forEach(function (column) {
+            column.forEach(function (cell) {
+                if (cell) {
+                    // Appel la méthode addTile
+                    self.addTile(cell);
+                }
+            });
+        });
+    });
+};
+
+/**
+ * [[Description]]
+ * @param {object} tile [[Description]]
+ */
 HTMLControl.prototype.addTile = function (tile) {
     'use strict';
     log('Je suis dans addTile');
@@ -45,7 +70,9 @@ HTMLControl.prototype.addTile = function (tile) {
     this.applyClasses(divWrapper, classes);
 
     divInner.addClass('tile-inner');
+    log(divInner);
     divInner.textContent = tile.value;
+    divInner.text(tile.value);
     log(divInner);
 
     function callBackAnim() {
@@ -68,12 +95,38 @@ HTMLControl.prototype.addTile = function (tile) {
         this.applyClasses(divWrapper, classes);
     }
     // Ajout de la partie interne de la case
-    divWrapper.appendTo(divInner);
+    divWrapper.append(divInner);
     // Ajout de la case à la div .tuile-container
-    this.tuileContainer.appendTo(divWrapper);
+    this.tuileContainer.append(divWrapper);
 };
 
+/**
+ * [[Description]]
+ * @param {[[Type]]} ele     [[Description]]
+ * @param {Array}    classes [[Description]]
+ */
 HTMLControl.prototype.applyClasses = function (ele, classes) {
     'use strict';
-    ele.setAttribute('class', classes.join(" "));
+    ele.attr('class', classes.join(" "));
+};
+
+/**
+ * [[Description]]
+ * @param   {object} position [[Description]]
+ * @returns {object} [[Description]]
+ */
+HTMLControl.prototype.normalizePosition = function (position) {
+    'use strict';
+    return { x: position.x + 1, y: position.y + 1 };
+};
+
+/**
+ * [[Description]]
+ * @param   {object} position [[Description]]
+ * @returns {string} [[Description]]
+ */
+HTMLControl.prototype.positionClass = function (position) {
+    'use strict';
+    position = this.normalizePosition(position);
+    return 'tile-position-' + position.x + '-' + position.y;
 };
