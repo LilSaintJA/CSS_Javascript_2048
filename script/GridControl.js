@@ -59,7 +59,8 @@ GridControl.prototype.fromState = function (state) {
 
     for (x = 0; x < this.size; x += 1) {
         row = cells[x] = [];
-        log(row);
+        //        log('row');
+        //        log(row);
 
         for (y = 0; y < this.size; y += 1) {
             tile = state[x][y];
@@ -80,6 +81,8 @@ GridControl.prototype.randomAvailableCells = function () {
     'use strict';
 
     var cells = this.availableCells();
+    // ## Débug log -> vaut tjrs 16 et 15
+    log('cells.length');
     log(cells.length);
 
     if (cells.length) {
@@ -117,6 +120,7 @@ GridControl.prototype.eachCell = function (callback) {
         for (y = 0; y < this.size; y += 1) {
             // Tourne 16 fois puisque 4*4 = 16 (nbr de cases au total)
             callback(x, y, this.cells[x][y]);
+            // ## Debug log -> renvoie undefined
             //            log(callback(x, y, this.cells[x][y]));
         }
     }
