@@ -10,3 +10,39 @@
     text-align: center;
     z-index: 10;
 }
+
+.tile {
+    position: absolute;
+}
+
+.tile .tile-inner {
+    color: @color-bg-3;
+    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 3rem;
+    font-weight: bold;
+    line-height: 107px;
+}
+
+/* Couleur des tiles en fonction de leur value */
+.tile.tile-2 .tile-inner {
+    background-color: @color-blue-1;
+    //    .box-shadow(0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0));
+    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
+}
+
+/* tile-position */
+
+//@iteration: 4;
+//@test: ~'-';
+//.tilePosition(@iteration) when (@iteration > 0) {
+//    @x: 1;
+//    @y: 1;
+//    .tile-position-@{x}@{test}@{y} {
+//        width: 107px;
+//    }
+//    .tilePosition(@iteration - 1);
+//}
+//
+//.tilePosition(0) {};
+//
+//.tilePosition(4);
