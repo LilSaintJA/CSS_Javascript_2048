@@ -33,11 +33,15 @@ KeyboardControl.prototype.listen = function () {
     };
     //    log('Je suis la clef');
 
+    /**
+     * Ecoute les fléches du clavie
+     * @param {[[Type]]} document).keydown(function (event [[Description]]
+     */
     $(document).keydown(function (event) {
 
         // Rassemble les touches de ALT, CRTL, SHIFT
         var specialKey = event.altKey || event.ctrlKey || event.shiftKey,
-            // Récupère la valeur des touches clavier initialiser dans l'objet map
+            // Récupère la valeur des touches clavier initialisée dans l'objet map
             mapped = map[event.which];
 
         log(specialKey);
