@@ -26,9 +26,10 @@ function GameControl(size, KeyControl, HTMLControl, StorageControl) {
 
     this.startTiles         = 2;
 
-    log(this.keyControl);
+    //    log(this.keyControl);
     //    log(this.inputControl.on("move", this.move(this)));
-    //    this.keyControl.on("move", this.move.bind(this));
+    log(this);
+    //    this.keyControl.onEvent("move", this.move.bind(this));
 
     this.setup();
 }
@@ -94,7 +95,7 @@ GameControl.prototype.addRandomTiles = function () {
         value = Math.random() < 0.9 ? 2 : 4;
         // Methode randomAvailableCells qui appartient à GridControl
         tile = new TileControl(this.grid.randomAvailableCells(), value);
-        // Me log la position et la valeur des tiles générer automatiquement
+        // Me log la position et la valeur des tiles générée automatiquement
         log(tile);
 
         this.grid.insertTile(tile);
