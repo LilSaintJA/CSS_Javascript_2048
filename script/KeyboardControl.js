@@ -16,9 +16,46 @@ log('Je suis le KeyboardControl');
  */
 function KeyboardControl() {
     'use strict';
+    this.events = {};
+    log(this.listen);
     // Appel de la méthode listen qui gére l'écouteur de touche clavier
     this.listen();
 }
+
+/**
+ * [[Description]]
+ * @param {[[Type]]} event    [[Description]]
+ * @param {function} callback [Fait référence à la function move dans le GameControl]
+ */
+KeyboardControl.prototype.onEvent = function (event, callback) {
+    'use strict';
+    log(this.events[event]);
+    //    log(callback);
+    if (!this.events[event]) {
+        log('Je suis dans la condition');
+        this.event[event] = [];
+    } else {
+        this.event[event].push(callback);
+    }
+};
+
+/**
+ * [[Description]]
+ * @param {[[Type]]} event [[Description]]
+ * @param {[[Type]]} data  [[Description]]
+ */
+KeyboardControl.prototype.emitEvent = function (event, data) {
+    'use strict';
+    var callbacks = this.events[event];
+    log('Je suis dans la fonction emitEvent');
+
+    if (callbacks) {
+        callbacks.forEach(function (callback) {
+            log(callback);
+            callback(data);
+        });
+    }
+};
 
 /**
  * Fonction qui écoute les touches du clavier
@@ -34,10 +71,12 @@ KeyboardControl.prototype.listen = function () {
     //    log('Je suis la clef');
 
     /**
-     * Ecoute les fléches du clavie
+     * Ecoute les fléches du clavier
      * @param {[[Type]]} document).keydown(function (event [[Description]]
      */
     $(document).keydown(function (event) {
+
+        var self = this;
 
         // Rassemble les touches de ALT, CRTL, SHIFT
         var specialKey = event.altKey || event.ctrlKey || event.shiftKey,
@@ -46,19 +85,12 @@ KeyboardControl.prototype.listen = function () {
 
         log(specialKey);
 
-        switch (mapped) {
-            case 0:
-                log('Touch Up');
-                break;
-            case 1:
-                log('Touch Right');
-                break;
-            case 2:
-                log('Touch Down');
-                break;
-            case 3:
-                log('Touch Left');
-                break;
+        if (!specialKey) {
+            if (mapped !== undefined) {
+                log('Je passe dans la condition');
+                event.preventDefault();
+                //                self.emitEvent('move', mapped);
+            }
         }
     });
 };
