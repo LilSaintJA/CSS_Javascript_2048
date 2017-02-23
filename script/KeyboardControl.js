@@ -17,7 +17,7 @@ log('Je suis le KeyboardControl');
 function KeyboardControl() {
     'use strict';
     this.events = {};
-    log(this.listen);
+    //    log(this.listen);
     // Appel de la méthode listen qui gére l'écouteur de touche clavier
     this.listen();
 }
