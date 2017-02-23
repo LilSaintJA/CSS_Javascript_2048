@@ -48,6 +48,7 @@ HTMLControl.prototype.addTile = function (tile) {
         classes = ['tile', 'tile-', tile.value, classPosition];
     //    log('Objet courant');
     //    log(self);
+    log(classes);
 
     // Si le joueur fait 2048
     if (tile.value > 2048) {
@@ -59,6 +60,21 @@ HTMLControl.prototype.addTile = function (tile) {
     log(tileInner.addClass('tile-inner'));
     // Ajout de la valeur de la tile dans le HTML
     tileInner.text(tile.value);
+
+    if (tile.previousPosition) {
+        window.requestAnimationFrame(function () {
+            // ## Récupère le 3ème index du tableau classes -> tile.value
+            classes[2] = self.positionClass({ x: tile.x, y: tile.y });
+            self.applyClasses(tileWrapper, classes);
+        });
+    } else if (tile.mergedTile) {
+        classes.push('tile-merged');
+        this.applyClasses(tileWrapper, classes);
+
+        tile.mergedTile.forEach(function (merged) {
+            self.addTile(merged);
+        });
+    }
 };
 
 /**
@@ -81,4 +97,9 @@ HTMLControl.prototype.positionClass = function (position) {
     position = this.normalizeClass(position);
     log('tile-position-' + position.x + '-' + position.y);
     return 'tile-position-' + position.x + '-' + position.y;
+};
+
+HTMLControl.prototype.applyClasses = function () {
+    'use strict';
+    log('ApplyClasses');
 };
