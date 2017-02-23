@@ -49,6 +49,7 @@ HTMLControl.prototype.addTile = function (tile) {
     //    log('Objet courant');
     //    log(self);
     log(classes);
+    log('previousPosition');
     log(tile.previousPosition);
 
     // Si le joueur fait 2048
@@ -56,7 +57,8 @@ HTMLControl.prototype.addTile = function (tile) {
         classes.push('tile-2048');
     }
 
-    // Ajout de la classe .tile-inner à la div tileInner
+    // ## Ajout de la classe .tile-inner à la div tileInner
+    // ## .tile-inner contient la div avec la value
     tileInner.addClass('tile-inner');
     log(tileInner.addClass('tile-inner'));
     // Ajout de la valeur de la tile dans le HTML
@@ -72,10 +74,22 @@ HTMLControl.prototype.addTile = function (tile) {
         classes.push('tile-merged');
         this.applyClasses(tileWrapper, classes);
 
+        // Rendu des cases qui ont fusionnées
         tile.mergedTile.forEach(function (merged) {
             self.addTile(merged);
         });
+    } else {
+        log('Je passe dans le else');
+        classes.push('tile-new');
+        this.applyClasses(tileWrapper, classes);
     }
+
+    // ## Ajoute la div tileInner à la div tileWrapper
+    tileWrapper.append(tileInner);
+    //    log(tileWrapper);
+
+    // ## Ajoute la div dans le DOM
+    this.tuileContainer.append(tileWrapper);
 };
 
 /**
@@ -85,7 +99,7 @@ HTMLControl.prototype.addTile = function (tile) {
  */
 HTMLControl.prototype.normalizeClass = function (position) {
     'use strict';
-    log({ x: position.x + 1, y: position.y + 1 });
+    //    log({ x: position.x + 1, y: position.y + 1 });
     return { x: position.x + 1, y: position.y + 1 };
 };
 
@@ -96,11 +110,19 @@ HTMLControl.prototype.normalizeClass = function (position) {
 HTMLControl.prototype.positionClass = function (position) {
     'use strict';
     position = this.normalizeClass(position);
-    log('tile-position-' + position.x + '-' + position.y);
+    //    log('tile-position-' + position.x + '-' + position.y);
     return 'tile-position-' + position.x + '-' + position.y;
 };
 
-HTMLControl.prototype.applyClasses = function () {
+/**
+ * Permet d'appliquer les classes élément mis en paramètre
+ * @param {object} ele     [L'éléement dont on veut récupère la classe]
+ * @param {Array}    classes [Tableaux contenant le nom des classes à ajouter]
+ */
+HTMLControl.prototype.applyClasses = function (ele, classes) {
     'use strict';
     log('ApplyClasses');
+    // ## Récupère la classe des div, et réunit ces classes avec celle présente dans le tableau classes[] avec un espace
+    ele.attr('class', classes.join(" "));
+    log(typeof ele);
 };
