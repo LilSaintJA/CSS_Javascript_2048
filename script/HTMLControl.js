@@ -107,6 +107,7 @@ HTMLControl.prototype.addTile = function (tile) {
  */
 HTMLControl.prototype.applyClasses = function (ele, classes) {
     'use strict';
+    // Récupère les classes de l'élément (tile), et les joins avec un espace
     ele.attr('class', classes.join(" "));
 };
 
