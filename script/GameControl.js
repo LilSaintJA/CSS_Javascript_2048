@@ -26,11 +26,6 @@ function GameControl(size, KeyControl, HTMLControl, StorageControl) {
 
     this.startTiles         = 2;
 
-    //    log(this.keyControl);
-    //    log(this.inputControl.on("move", this.move(this)));
-    log(this);
-    //    this.keyControl.onEvent("move", this.move.bind(this));
-
     this.setup();
 }
 
