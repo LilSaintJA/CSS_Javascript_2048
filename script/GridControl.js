@@ -98,27 +98,30 @@ GridControl.prototype.availableCells = function () {
     'use strict';
     var cells = [];
     this.eachCell(function (x, y, tile) {
-
+        // Tile renvoie null
         if (!tile) {
-            // Renvoie true 2 fois
+            // Renvoie true 2 fois pour chaque axe
             cells.push({x: x, y: y});
             //            log(cells.push({x: x, y: y}));
         }
     });
+    //    log(cells);
     return cells;
 };
 
 /**
- * [[Description]]
- * @param {[[Type]]} callback [[Description]]
+ * Fonction de rappel pour les cases
+ * @param {function} callback [callback fait référence à la méthode appelée dans availableCells]
  */
 GridControl.prototype.eachCell = function (callback) {
     'use strict';
     var x,
         y;
+    //    log(callback);
+    // Tourne une fois pour l'axe des x
     for (x = 0; x < this.size; x += 1) {
+        // Tourne une fois pour l'axe des y
         for (y = 0; y < this.size; y += 1) {
-            // Tourne 16 fois puisque 4*4 = 16 (nbr de cases au total)
             callback(x, y, this.cells[x][y]);
             // ## Debug log -> renvoie undefined
             //            log(callback(x, y, this.cells[x][y]));
