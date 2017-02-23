@@ -49,6 +49,7 @@ HTMLControl.prototype.addTile = function (tile) {
     //    log('Objet courant');
     //    log(self);
     log(classes);
+    log(tile.previousPosition);
 
     // Si le joueur fait 2048
     if (tile.value > 2048) {
