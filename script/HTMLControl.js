@@ -44,11 +44,21 @@ HTMLControl.prototype.addTile = function (tile) {
         tileWrapper = $('<div></div>'),
         tileInner = $('<div></div>'),
         position = tile.previousPosition || { x: tile.x, y: tile.y },
-        positionClass = this.positionClass(position);
+        classPosition = this.positionClass(position),
+        classes = ['tile', 'tile-', tile.value, classPosition];
     //    log('Objet courant');
     //    log(self);
 
-    // Création des divs pour les tiles
+    // Si le joueur fait 2048
+    if (tile.value > 2048) {
+        classes.push('tile-2048');
+    }
+
+    // Ajout de la classe .tile-inner à la div tileInner
+    tileInner.addClass('tile-inner');
+    log(tileInner.addClass('tile-inner'));
+    // Ajout de la valeur de la tile dans le HTML
+    tileInner.text(tile.value);
 };
 
 /**
