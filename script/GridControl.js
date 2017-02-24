@@ -64,7 +64,7 @@ GridControl.prototype.fromState = function (state) {
 
         for (y = 0; y < this.size; y += 1) {
             tile = state[x][y];
-            log(tile);
+            //            log(tile);
             row.push(tile ? new TileControl(tile.position, tile.value) : null);
         }
     }
@@ -87,7 +87,7 @@ GridControl.prototype.randomAvailableCells = function () {
 
     // Si cells à une longueur
     if (cells.length) {
-        log(cells[Math.floor(Math.random() * cells.length)]);
+        //        log(cells[Math.floor(Math.random() * cells.length)]);
         // Génére aléatoirement un nombre compris entre 0 et 3
         return cells[Math.floor(Math.random() * cells.length)];
     }
