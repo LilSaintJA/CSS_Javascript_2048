@@ -22,17 +22,49 @@ function KeyboardControl() {
     this.listen();
 }
 
+/* ------------------- */
+/* *** GESTION EVENTS *** */
+/* ------------------- */
+
+/**
+ * [[Description]]
+ * @param {[[Type]]} evt      [[Description]]
+ * @param {[[Type]]} callback [[Description]]
+ */
+KeyboardControl.prototype.onEvent = function (evt, callback) {
+    'use strict';
+
+    if (!this.events[evt]) {
+        this.events[evt] = [];
+    }
+    this.events[evt].push(callback);
+};
+
+KeyboardControl.prototype.emitEvent = function (evt, data) {
+    'use strict';
+
+    var callbacks = this.events[evt];
+    log(callbacks);
+
+    if (callbacks) {
+        callbacks.forEach(function (callback) {
+            callback(data);
+        });
+    }
+};
+
 /**
  * Fonction qui écoute les touches du clavier
  */
 KeyboardControl.prototype.listen = function () {
     'use strict';
-    var map = {
-        38: 0, // Touche UP
-        39: 1, // Touche RIGHT
-        40: 2, // Touche DOWN
-        37: 3  // Touche LEFT
-    };
+    var self = this,
+        map = {
+            38: 0, // Touche UP
+            39: 1, // Touche RIGHT
+            40: 2, // Touche DOWN
+            37: 3  // Touche LEFT
+        };
     //    log('Je suis la clef');
 
     /**
@@ -41,7 +73,6 @@ KeyboardControl.prototype.listen = function () {
      */
     $(document).keydown(function (event) {
 
-        var self = this;
 
         // Rassemble les touches de ALT, CRTL, SHIFT
         var specialKey = event.altKey || event.ctrlKey || event.shiftKey,
@@ -50,19 +81,11 @@ KeyboardControl.prototype.listen = function () {
 
         log(specialKey);
 
-        switch (mapped) {
-            case 0:
-                log('Touch Up');
-                break;
-            case 1:
-                log('Touch Right');
-                break;
-            case 2:
-                log('Touch Down');
-                break;
-            case 3:
-                log('Touch Left');
-                break;
+        if (!specialKey) {
+            if (mapped) {
+                event.preventDefault();
+                self.emitEvent('move', mapped);
+            }
         }
     });
 };
