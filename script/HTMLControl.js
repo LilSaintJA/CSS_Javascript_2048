@@ -37,8 +37,8 @@ function HTMLControl() {
 /* -------------- */
 
 /**
- * [[Description]]
- * @param {[[Type]]} grid     [[Description]]
+ * Actualise l'interface graphique du jeu
+ * @param {object} grid     [[Description]]
  * @param {[[Type]]} metadata [[Description]]
  */
 HTMLControl.prototype.actualize = function (grid, metadata) {
@@ -47,22 +47,24 @@ HTMLControl.prototype.actualize = function (grid, metadata) {
     // Garde la référence à l'objet
     var self = this;
 
-    window.requestAnimationFrame(function () {
-        // Efface les divs
-        self.resetContainer(self.tileContainer);
-        // Parcour les cellules de la grille
-        grid.cells.forEach(function (column) {
-            // Parcour les columns des cellules
-            column.forEach(function (cell) {
-                // ## Si il y a une cellule de dispo
-                if (cell) {
-                    self.addTile(cell);
-                }
-            });
+    //    window.requestAnimationFrame(function () {
+    // Efface les divs
+    self.resetContainer(self.tileContainer);
+    // Parcour les cellules de la grille
+    grid.cells.forEach(function (column) {
+        // Parcour les columns des cellules
+        column.forEach(function (cell) {
+            // ## Si il y a une cellule de dispo
+            if (cell) {
+                //                log('Cell HTMLControl');
+                //                log(cell);
+                self.addTile(cell);
+            }
         });
-        
-        // Ajout des méthodes pour le score
     });
+
+    // Ajout des méthodes pour le score
+    //    });
 };
 
 /**
@@ -81,8 +83,8 @@ HTMLControl.prototype.addTile = function (tile) {
         classPosition = this.positionClass(position),
         classes = ['tile', 'tile-', tile.value, classPosition];
     //    log(classes);
-    log('tile');
-    log(tile);
+    //    log('tile');
+    //    log(tile);
     log('previousPosition');
     log(tile.previousPosition);
 
@@ -94,17 +96,17 @@ HTMLControl.prototype.addTile = function (tile) {
     // ## Ajout de la classe .tile-inner à la div tileInner
     // ## .tile-inner contient la div avec la value
     tileInner.addClass('tile-inner');
-    log(tileInner.addClass('tile-inner'));
+    //    log(tileInner.addClass('tile-inner'));
     // Ajout de la valeur de la tile dans le HTML
     tileInner.text(tile.value);
 
     // Si il y a déjà une position 
     if (tile.previousPosition) {
-        window.requestAnimationFrame(function () {
-            // ## Récupère le 3ème index du tableau classes -> tile.value
-            classes[2] = self.positionClass({ x: tile.x, y: tile.y });
-            self.applyClasses(tileWrapper, classes);
-        });
+        //        window.requestAnimationFrame(function () {
+        // ## Récupère le 3ème index du tableau classes -> tile.value
+        classes[2] = self.positionClass({ x: tile.x, y: tile.y });
+        self.applyClasses(tileWrapper, classes);
+        //        });
         // Ou si il y un merge entre 2 tiles
     } else if (tile.mergedTile) {
         classes.push('tile-merged');
@@ -140,7 +142,7 @@ HTMLControl.prototype.addTile = function (tile) {
  */
 HTMLControl.prototype.normalizeClass = function (position) {
     'use strict';
-    log({ x: position.x + 1, y: position.y + 1 });
+    //    log({ x: position.x + 1, y: position.y + 1 });
     return { x: position.x + 1, y: position.y + 1 };
 };
 
@@ -162,10 +164,9 @@ HTMLControl.prototype.positionClass = function (position) {
  */
 HTMLControl.prototype.applyClasses = function (ele, classes) {
     'use strict';
-    log('ApplyClasses');
+    //    log('ApplyClasses');
     // ## Récupère la classe des div, et réunit ces classes avec celle présente dans le tableau classes[] avec un espace
     ele.attr('class', classes.join(" "));
-    log(typeof ele);
 };
 
 /* -------------- */
