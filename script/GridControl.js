@@ -17,6 +17,10 @@ function GridControl(size, previousState) {
     this.cells = previousState ? this.fromState(previousState) : this.empty();
 }
 
+/* ------------------- */
+/* *** STATE GAME *** */
+/* ------------------- */
+
 /**
  * Fonction qui créé la grille du jeu par rapport à une taille donnée (quand la grille est vide)
  * @returns {array} [Les cellules du jeu]
@@ -67,6 +71,10 @@ GridControl.prototype.fromState = function (state) {
     //    log(cells);
     return cells;
 };
+
+/* ------------------- */
+/* *** CELLULES *** */
+/* ------------------- */
 
 /**
  * Génére les cellules de la grille
@@ -122,8 +130,22 @@ GridControl.prototype.eachCells = function (callback) {
 
 /**
  * [[Description]]
+ * @returns {[[Type]]} [[Description]]
  */
 GridControl.prototype.cellsAvailable = function () {
     'use strict';
     return !!this.availableCells().length;
+};
+
+/* --------------------- */
+/* *** TILE SETTINGS *** */
+/* --------------------- */
+
+/**
+ * Ajoute une tile à la position définit dans la methode addRandomTile -> GameControl()
+ * @param {object} tile [[Description]]
+ */
+GridControl.prototype.insertTile = function (tile) {
+    'use strict';
+    this.cells[tile.x][tile.y] = tile;
 };
