@@ -158,7 +158,7 @@ HTMLControl.prototype.positionClass = function (position) {
 /**
  * Permet d'appliquer les classes élément mis en paramètre
  * @param {object} ele     [L'éléement dont on veut récupère la classe]
- * @param {Array}    classes [Tableaux contenant le nom des classes à ajouter]
+ * @param {Array} classes [Tableaux contenant le nom des classes à ajouter]
  */
 HTMLControl.prototype.applyClasses = function (ele, classes) {
     'use strict';
@@ -222,8 +222,8 @@ HTMLControl.prototype.resetMSG = function () {
  */
 HTMLControl.prototype.resetContainer = function (container) {
     'use strict';
-    while (container.first()) {
-        container.remove(container.first());
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
     }
 };
 
