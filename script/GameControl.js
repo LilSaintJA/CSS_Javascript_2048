@@ -60,7 +60,7 @@ GameControl.prototype.setup = function () {
         this.addStartTiles();
     }
 
-    //    this.actualize();
+    this.actualize();
 };
 
 /**
@@ -89,6 +89,14 @@ GameControl.prototype.addRandomTiles = function () {
 
         tile = new TileControl(this.grid.randomAvailableCells(), value);
         log(tile);
-        //        this.grid.insertTile(tile);
+        this.grid.insertTile(tile);
     }
+};
+
+GameControl.prototype.actualize = function () {
+    'use strict';
+
+    this.htmlControl.actualize(this.grid, {
+        over: this.over
+    });
 };
