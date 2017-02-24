@@ -16,5 +16,5 @@ function LocalStorageControl() {
  */
 LocalStorageControl.prototype.getGameState = function () {
     'use strict';
-    console.log('GameState');
+    //    console.log('GameState');
 };
