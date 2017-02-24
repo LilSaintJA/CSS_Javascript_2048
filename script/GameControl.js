@@ -80,7 +80,7 @@ GameControl.prototype.addStartTiles = function () {
  */
 GameControl.prototype.addRandomTiles = function () {
     'use strict';
-    log('addRandomTiles');
+    //    log('addRandomTiles');
     var value,
         tile;
     if (this.grid.availableCells()) {
@@ -93,6 +93,9 @@ GameControl.prototype.addRandomTiles = function () {
     }
 };
 
+/**
+ * [[Description]]
+ */
 GameControl.prototype.actualize = function () {
     'use strict';
 
