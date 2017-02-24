@@ -23,6 +23,9 @@ function TileControl(position, value) {
     this.value = value || 2;
 
     this.previousPosition = null;
+
+    //    log(this.x);
+    //    log(this.y);
 }
 
 /**
