@@ -28,6 +28,7 @@ function GridControl(size, previousState) {
 GridControl.prototype.empty = function () {
     'use strict';
 
+    log('je suis dans Empty');
     var cells = [],
         x,
         y,
@@ -41,7 +42,7 @@ GridControl.prototype.empty = function () {
         }
     }
     //    log(cells);
-    // Contient 4 tableaux qui contiennent 4 index
+    // Contient 4 tableaux qui contiennent chacun 4 index
     return cells;
 };
 
@@ -52,6 +53,7 @@ GridControl.prototype.empty = function () {
  */
 GridControl.prototype.fromState = function (state) {
     'use strict';
+    log('je suis dans fromState');
 
     var cells = [],
         x,
@@ -64,11 +66,12 @@ GridControl.prototype.fromState = function (state) {
 
         for (y = 0; y < this.size; y += 1) {
             tile = state[x][y];
-            //            log(tile);
+            log('Tile fromState');
+            log(tile);
             row.push(tile ? new TileControl(tile.position, tile.value) : null);
         }
     }
-    //    log(cells);
+    log(cells);
     return cells;
 };
 
@@ -120,7 +123,6 @@ GridControl.prototype.eachCells = function (callback) {
     'use strict';
     var x,
         y;
-
     for (x = 0; x < this.size; x += 1) {
         for (y = 0; y < this.size; y += 1) {
             callback(x, y, this.cells[x][y]);
@@ -137,6 +139,35 @@ GridControl.prototype.cellsAvailable = function () {
     return !!this.availableCells().length;
 };
 
+/**
+ * [[Description]]
+ * @param   {[[Type]]} cell [[Description]]
+ * @returns {[[Type]]} [[Description]]
+ */
+GridControl.prototype.cellAvailable = function (cell) {
+    'use strict';
+    return !this.cellOccupied(cell);
+};
+
+GridControl.prototype.cellOccupied = function (cell) {
+    'use strict';
+    return !!this.cellContent(cell);
+};
+
+/**
+ * Gère le contenu des cellules
+ * @param   {object}   cell [Les cellules de la grille]
+ * @returns {array} [Renvoie null si il n'y a pas de tile dans la case, sinon renvoie la position de la tile dans la grille]
+ */
+GridControl.prototype.cellContent = function (cell) {
+    'use strict';
+    if (this.withinBounds(cell)) {
+        return this.cells[cell.x][cell.y];
+    } else {
+        return null;
+    }
+};
+
 /* --------------------- */
 /* *** TILE SETTINGS *** */
 /* --------------------- */
@@ -148,4 +179,46 @@ GridControl.prototype.cellsAvailable = function () {
 GridControl.prototype.insertTile = function (tile) {
     'use strict';
     this.cells[tile.x][tile.y] = tile;
+};
+
+/**
+ * Détermine les limites des cellules de la grille
+ * @param {object} position [La position des cellules dans la grille]
+ */
+GridControl.prototype.withinBounds = function (position) {
+    'use strict';
+
+    //    if (position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size) {
+    //        return {
+    //            x: position.x,
+    //            y: position.y
+    //        };
+    //    }
+    return position.x >= 0 && position.x < this.size &&
+        position.y >= 0 && position.y < this.size;
+};
+
+/**
+ * [[Description]]
+ * @returns {object} [[Description]]
+ */
+GridControl.prototype.serialize = function () {
+    'use strict';
+
+    var cellState = [],
+        x,
+        y,
+        row;
+
+    for (x = 0; x < this.size; x += 1) {
+        row = cellState[x] = [];
+
+        for (y = 0; y < this.size; y += 1) {
+            row.push(this.cells[x][y] ? this.cells[x][y].serialize() : null);
+        }
+    }
+    return {
+        size: this.size,
+        cells: cellState
+    };
 };
