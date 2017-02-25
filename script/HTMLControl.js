@@ -16,17 +16,17 @@ function HTMLControl() {
     log('Je suis le HTML Control');
 
     // Selecteur de div nécessaire pour le jeu
-    this.tileContainer      = $('.tuile-container');
-    this.scoreContainer     = $('.score-container');
-    this.bestContainer      = $('.best-container');
-    this.msgContainer       = $('.game-msg');
+    this.tileContainer      = document.querySelector('.tuile-container');
+    this.scoreContainer     = document.querySelector('.score-container');
+    this.bestContainer      = document.querySelector('.best-container');
+    this.msgContainer       = document.querySelector('.game-msg');
 
     this.score = 0;
 
     //    this.addTile(this);
 
-    //    log('TileContainer');
-    //    log(this.tileContainer);
+    log('TileContainer');
+    log(this.tileContainer);
     //    log(this.bestContainer);
 }
 
@@ -77,16 +77,16 @@ HTMLControl.prototype.addTile = function (tile) {
     // self garde une référence vers "this" en cas de changement de scope
     // ## self garde la référence à l'objet que l'on appelle et pas à l'objet dans lequel on se trouve
     var self = this,
-        tileWrapper = $('<div></div>'),
-        tileInner = $('<div></div>'),
+        tileWrapper = document.createElement("div"),
+        tileInner = document.createElement("div"),
         position = tile.previousPosition || { x: tile.x, y: tile.y },
         classPosition = this.positionClass(position),
-        classes = ['tile', 'tile-', tile.value, classPosition];
+        classes = ['tile', 'tile-' + tile.value, classPosition];
     //    log(classes);
     //    log('tile');
     //    log(tile);
-    log('previousPosition');
-    log(tile.previousPosition);
+    //    log('previousPosition');
+    //    log(tile.previousPosition);
 
     // Si le joueur fait 2048
     if (tile.value > 2048) {
@@ -95,10 +95,10 @@ HTMLControl.prototype.addTile = function (tile) {
 
     // ## Ajout de la classe .tile-inner à la div tileInner
     // ## .tile-inner contient la div avec la value
-    tileInner.addClass('tile-inner');
+    tileInner.classList.add("tile-inner");
     //    log(tileInner.addClass('tile-inner'));
     // Ajout de la valeur de la tile dans le HTML
-    tileInner.text(tile.value);
+    tileInner.textContent = tile.value;
 
     // Si il y a déjà une position 
     if (tile.previousPosition) {
@@ -108,27 +108,27 @@ HTMLControl.prototype.addTile = function (tile) {
         self.applyClasses(tileWrapper, classes);
         //        });
         // Ou si il y un merge entre 2 tiles
-    } else if (tile.mergedTile) {
+    } else if (tile.mergedFrom) {
         classes.push('tile-merged');
         this.applyClasses(tileWrapper, classes);
 
         // Rendu des cases qui ont fusionnées
-        tile.mergedTile.forEach(function (merged) {
+        tile.mergedFrom.forEach(function (merged) {
             self.addTile(merged);
         });
         // Sinon charge une nouvelle tile
     } else {
-        log('Je passe dans le else');
+        //        log('Je passe dans le else');
         classes.push('tile-new');
         this.applyClasses(tileWrapper, classes);
     }
 
     // ## Ajoute la div tileInner à la div tileWrapper
-    tileWrapper.append(tileInner);
+    tileWrapper.appendChild(tileInner);
     //    log(tileWrapper);
 
     // ## Ajoute la div dans le DOM
-    this.tileContainer.append(tileWrapper);
+    this.tileContainer.appendChild(tileWrapper);
 };
 
 /* -------------- */
@@ -166,7 +166,7 @@ HTMLControl.prototype.applyClasses = function (ele, classes) {
     'use strict';
     //    log('ApplyClasses');
     // ## Récupère la classe des div, et réunit ces classes avec celle présente dans le tableau classes[] avec un espace
-    ele.attr('class', classes.join(" "));
+    ele.setAttribute('class', classes.join(" "));
 };
 
 /* -------------- */
@@ -209,8 +209,8 @@ HTMLControl.prototype.msg = function (won) {
 
 HTMLControl.prototype.resetMSG = function () {
     'use strict';
-    this.msgContainer.removeClass('2048');
-    this.msgContainer.removeClass('looser');
+    //    this.msgContainer.removeClass('2048');
+    //    this.msgContainer.removeClass('looser');
 };
 
 /* -------------- */
