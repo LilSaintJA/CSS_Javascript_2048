@@ -37,10 +37,8 @@ TileControl.prototype.savePosition = function () {
     // ## x -> la clef
     // ## this.x -> la valeur
     // ## Débug console navigateur -> x et y sont undefined
-    this.previousPosition = {
-        x: this.x,
-        y: this.y
-    };
+    this.previousPosition = { x: this.x, y: this.y };
+    log('Sauvegarde des positions initiale des tiles');
     log(this.previousPosition);
 };
 
@@ -50,6 +48,7 @@ TileControl.prototype.savePosition = function () {
  */
 TileControl.prototype.updatePosition = function (position) {
     'use strict';
+    log('Mise à jour des position');
     this.x = position.x;
     this.y = position.y;
 };
@@ -63,7 +62,7 @@ TileControl.prototype.serialize = function () {
     // Débug console navigateur
     // ## Object qui contient l'object position avec comme clef x et y et comme valeur undefined
     // ## Contient value qui est undefined
-    log({ position: { x: this.x, y: this.y }, value: this.value });
+    //    log({ position: { x: this.x, y: this.y }, value: this.value });
     return {
         position: {
             x: this.x,
