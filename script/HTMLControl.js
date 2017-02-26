@@ -9,11 +9,10 @@ function log(D) {
     console.log(D);
 }
 /**
- * Gère l'interface du jeu du côté front
+ * Gère l'interface du jeu côté front
  */
 function HTMLControl() {
     'use strict';
-    log('Je suis le HTML Control');
 
     // Selecteur de div nécessaire pour le jeu
     this.tileContainer      = document.querySelector('.tuile-container');
@@ -24,12 +23,6 @@ function HTMLControl() {
     this.score = 0;
 
 }
-
-// *** Ajout de méthode à HTMLControl
-
-/* -------------- */
-/* *** TILE *** */
-/* -------------- */
 
 /**
  * Actualise l'interface graphique du jeu
@@ -69,7 +62,7 @@ HTMLControl.prototype.actualize = function (grid, metadata) {
 };
 
 /**
- * [[Description]]
+ * Méthode qui gère l'effacement des divs
  * @param {[[Type]]} container [[Description]]
  */
 HTMLControl.prototype.resetContainer = function (container) {
@@ -86,7 +79,6 @@ HTMLControl.prototype.resetContainer = function (container) {
 HTMLControl.prototype.addTile = function (tile) {
     'use strict';
 
-    // self garde une référence vers "this" en cas de changement de scope
     // ## self garde la référence à l'objet que l'on appelle et pas à l'objet dans lequel on se trouve
     var self = this,
         tileWrapper = document.createElement("div"),
@@ -100,8 +92,6 @@ HTMLControl.prototype.addTile = function (tile) {
         classes.push('tile-2048');
     }
 
-    //    this.applyClasses(tileWrapper, classes);
-
     // ## Ajout de la classe .tile-inner à la div tileInner
     // ## .tile-inner contient la div avec la value
     tileInner.classList.add("tile-inner");
@@ -110,7 +100,6 @@ HTMLControl.prototype.addTile = function (tile) {
 
     // Si il y a déjà une position 
     if (tile.previousPosition) {
-        log('Je passe dans la condition');
         // ## Récupère le 3ème index du tableau classes -> classPosition
         classes[2] = self.positionClass({ x: tile.x, y: tile.y });
         self.applyClasses(tileWrapper, classes);
@@ -119,7 +108,7 @@ HTMLControl.prototype.addTile = function (tile) {
         classes.push('tile-merged');
         this.applyClasses(tileWrapper, classes);
 
-        // ## Rendu des cases qui ont fusionnées
+        // ## Pour les cases qui ont fusionnées
         tile.mergedTile.forEach(function (merged) {
             self.addTile(merged);
         });
@@ -131,7 +120,6 @@ HTMLControl.prototype.addTile = function (tile) {
 
     // ## Ajoute la div tileInner à la div tileWrapper
     tileWrapper.appendChild(tileInner);
-    //    log(tileWrapper);
 
     // ## Ajoute la div dans le DOM
     this.tileContainer.appendChild(tileWrapper);
@@ -162,7 +150,7 @@ HTMLControl.prototype.positionClass = function (position) {
 };
 
 /**
- * Permet d'appliquer les classes élément mis en paramètre
+ * Permet d'appliquer les classes sur les éléments mis en paramètre
  * @param {object} ele     [L'éléement dont on veut récupère la classe]
  * @param {Array} classes [Tableaux contenant le nom des classes à ajouter]
  */
@@ -200,15 +188,6 @@ HTMLControl.prototype.updateScore = function (score) {
     }
 };
 
-/**
- * Gère l'affichage du meilleur score, si sauvegarder dans le localStorage
- * @param {[[Type]]} bestScore [[Description]]
- */
-HTMLControl.prototype.updateBestScore = function (bestScore) {
-    'use strict';
-    this.bestContainer.text(bestScore);
-};
-
 /* -------------- */
 /* *** MESSAGE *** */
 /* -------------- */
@@ -219,7 +198,6 @@ HTMLControl.prototype.updateBestScore = function (bestScore) {
  */
 HTMLControl.prototype.msg = function (won) {
     'use strict';
-    log('Je suis le msg de looser ou de winner');
     var type    = won ? 'winner' : 'looser',
         message = won ? 'Gagné 2048 tu as' : 'Vaincu par 2048 tu es';
 
@@ -230,22 +208,10 @@ HTMLControl.prototype.msg = function (won) {
 };
 
 /**
- * [[Description]]
+ * Efface les messages de fin de partie, gagnée ou perdu
  */
 HTMLControl.prototype.resetMSG = function () {
     'use strict';
     this.msgContainer.classList.remove('winner');
     this.msgContainer.classList.remove('looser');
-};
-
-/* -------------- */
-/* *** PARTIE *** */
-/* -------------- */
-
-/**
- * [[Description]]
- */
-HTMLControl.prototype.continuePlay = function () {
-    'use strict';
-    this.resetMSG();
 };

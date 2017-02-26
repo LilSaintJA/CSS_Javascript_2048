@@ -1,14 +1,7 @@
-// Build position classes
 $field-width: 500px;
 $grid-spacing: 15px;
 $grid-row-cells: 4;
 $tile-size: ($field-width - $grid-spacing * ($grid-row-cells + 1)) / $grid-row-cells;
-$tile-border-radius: 3px;
-
-$mobile-threshold: $field-width + 20px;
-
-$game-container-margin-top: 40px;
-$transition-speed: 100ms;
 
 // Movement transition
 @mixin transform($args...) {
@@ -19,12 +12,6 @@ $transition-speed: 100ms;
 
 .tile {
     position: absolute;
-    -webkit-transition: 100ms ease-in-out;
-    -moz-transition: 100ms ease-in-out;
-    transition: 100ms ease-in-out;
-    -webkit-transition-property: -webkit-transform;
-    -moz-transition-property: -moz-transform;
-    transition-property: transform; 
 
     &, .tile-inner {
         width: ceil($tile-size);

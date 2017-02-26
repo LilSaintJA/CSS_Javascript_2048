@@ -15,7 +15,6 @@ function log(D) {
  */
 function KeyboardControl() {
     'use strict';
-    log('Je suis le KeyboardControl');
     this.events = {};
     // Appel de la méthode listen qui gére l'écouteur de touche clavier
     this.listen();
@@ -36,7 +35,6 @@ KeyboardControl.prototype.onEvent = function (evt, callback) {
     if (!this.events[evt]) {
         this.events[evt] = [];
     }
-    //    log('condition onEvents');
     this.events[evt].push(callback);
 };
 
@@ -50,20 +48,15 @@ KeyboardControl.prototype.emitEvent = function (evt, data) {
     // Quand j'appuie sur une touche la fonction est appelé
 
     var callbacks = this.events[evt];
-    //    log(callbacks);
 
+    // En appuyant sur une touche je passe dans la condition
+    // ## callback rappel la function moveGrid -> GameControl
     if (callbacks) {
-        // En appuyant sur une touche je passe dans la condition
-        //        log('condition emitEvents');
         callbacks.forEach(function (callback) {
             callback(data);
         });
     }
 };
-
-//KeyboardControl.prototype.restart = function () {
-//    
-//}
 
 /**
  * Fonction qui écoute les touches du clavier
@@ -94,7 +87,6 @@ KeyboardControl.prototype.listen = function () {
 
         if (!specialKey) {
             if (mapped !== undefined) {
-                //                log('condition keydown');
                 event.preventDefault();
                 self.emitEvent('move', mapped);
             }
@@ -102,9 +94,6 @@ KeyboardControl.prototype.listen = function () {
     });
 
     // Ecouteurs de click
-
-    log(btnRetry);
-    log(btnContinue);
 
     btnRetry.click(function (event) {
         event.preventDefault();

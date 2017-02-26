@@ -16,7 +16,6 @@ function log(D) {
  */
 function TileControl(position, value) {
     'use strict';
-    log('Je suis le TileControl');
 
     this.x = position.x;
     this.y = position.y;
@@ -24,9 +23,6 @@ function TileControl(position, value) {
 
     this.previousPosition = null;
     this.mergedTile = null;
-
-    //    log(this.x);
-    //    log(this.y);
 }
 
 /**
@@ -47,7 +43,6 @@ TileControl.prototype.savePosition = function () {
  */
 TileControl.prototype.updatePosition = function (position) {
     'use strict';
-    log('Mise à jour des position');
     this.x = position.x;
     this.y = position.y;
 };
@@ -61,7 +56,6 @@ TileControl.prototype.serialize = function () {
     // Débug console navigateur
     // ## Object qui contient l'object position avec comme clef x et y et comme valeur undefined
     // ## Contient value qui est undefined
-    //    log({ position: { x: this.x, y: this.y }, value: this.value });
     return {
         position: {
             x: this.x,

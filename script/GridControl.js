@@ -11,23 +11,17 @@ function log(D) {
  */
 function GridControl(size) {
     'use strict';
-    log('Je suis le Grid Control');
     this.size = size;
     this.cells = this.startGame();
 }
 
-/* ------------------- */
-/* *** STATE GAME *** */
-/* ------------------- */
-
 /**
- * Fonction qui créé la grille du jeu par rapport à une taille donnée (quand la grille est vide)
+ * Fonction qui créé la grille du jeu par à la taille définit dans GameControl()
  * @returns {array} [Les cellules du jeu]
  */
 GridControl.prototype.startGame = function () {
     'use strict';
 
-    log('je suis dans StartGame');
     var cells = [],
         x,
         y,
@@ -39,7 +33,7 @@ GridControl.prototype.startGame = function () {
             row.push(null);
         }
     }
-    // Contient 4 tableaux qui contiennent chacun 4 index
+
     return cells;
 };
 
@@ -73,18 +67,18 @@ GridControl.prototype.availableCells = function () {
     var cells = [];
 
     this.eachCells(function (x, y, tile) {
-        // Si c'est différent de null
-        if (!tile) {
+        // Si tile est égal à null
+        if (tile === null) {
             cells.push({ x: x, y: y});
         }
     });
-
     return cells;
 };
 
 /**
  * [[Description]]
- * @param {[function} callback [Une fonction de rappel]
+ * @param {function} callback [Rappel la function availableCells 
+ *                            à chaque exécution de la fonction eachCells]
  */
 GridControl.prototype.eachCells = function (callback) {
     'use strict';
@@ -98,8 +92,8 @@ GridControl.prototype.eachCells = function (callback) {
 };
 
 /**
- * [[Description]]
- * @returns {[[Type]]} [[Description]]
+ * Gère le nombre de case encore disponible dans la grille
+ * @returns {number} [Le nbr de case dispo]
  */
 GridControl.prototype.cellsAvailable = function () {
     'use strict';
@@ -109,13 +103,18 @@ GridControl.prototype.cellsAvailable = function () {
 /**
  * [[Description]]
  * @param   {[[Type]]} cell [[Description]]
- * @returns {[[Type]]} [[Description]]
+ * @returns {bool} [[Description]]
  */
 GridControl.prototype.cellAvailable = function (cell) {
     'use strict';
     return !this.cellOccupied(cell);
 };
 
+/**
+ * Gère les cellules occupé par des tiles
+ * @param   {[[Type]]} cell [[Description]]
+ * @returns {[[Type]]} [[Description]]
+ */
 GridControl.prototype.cellOccupied = function (cell) {
     'use strict';
     return this.cellContent(cell);
@@ -133,10 +132,6 @@ GridControl.prototype.cellContent = function (cell) {
     }
 };
 
-/* --------------------- */
-/* *** TILE SETTINGS *** */
-/* --------------------- */
-
 /**
  * Ajoute une tile à la position définit dans la methode addRandomTile -> GameControl()
  * @param {object} tile [[Description]]
@@ -146,6 +141,10 @@ GridControl.prototype.insertTile = function (tile) {
     this.cells[tile.x][tile.y] = tile;
 };
 
+/**
+ * Supprime une tile
+ * @param {object} tile [[Description]]
+ */
 GridControl.prototype.removeTile = function (tile) {
     'use strict';
     this.cells[tile.x][tile.y] = null;
@@ -164,31 +163,4 @@ GridControl.prototype.withinBounds = function (position) {
             y: position.y
         };
     }
-    //    return position.x >= 0 && position.x < this.size &&
-    //        position.y >= 0 && position.y < this.size;
-};
-
-/**
- * [[Description]]
- * @returns {object} [[Description]]
- */
-GridControl.prototype.serialize = function () {
-    'use strict';
-
-    var cellState = [],
-        x,
-        y,
-        row;
-
-    for (x = 0; x < this.size; x += 1) {
-        row = cellState[x] = [];
-
-        for (y = 0; y < this.size; y += 1) {
-            row.push(this.cells[x][y] ? this.cells[x][y].serialize() : null);
-        }
-    }
-    return {
-        size: this.size,
-        cells: cellState
-    };
 };

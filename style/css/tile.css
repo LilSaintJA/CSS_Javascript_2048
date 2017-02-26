@@ -1,11 +1,5 @@
 .tile {
-  position: absolute;
-  -webkit-transition: 100ms ease-in-out;
-  -moz-transition: 100ms ease-in-out;
-  transition: 100ms ease-in-out;
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  transition-property: transform; }
+  position: absolute; }
   .tile, .tile .tile-inner {
     width: 107px;
     height: 107px;
@@ -75,4 +69,4 @@
     -moz-transform: translate(363px, 363px);
     transform: translate(363px, 363px); }
 
-/*# sourceMappingURL=zing.css.map */
+/*# sourceMappingURL=tile.css.map */

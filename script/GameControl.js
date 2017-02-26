@@ -15,7 +15,6 @@ function log(D) {
  */
 function GameControl(KeyControl, HTMLControl) {
     'use strict';
-    console.log('Je suis le game control');
 
     // ## Taille de la grille
     this.size               = 4;
@@ -39,8 +38,9 @@ function GameControl(KeyControl, HTMLControl) {
 /* -------------- */
 
 /**
- * Permet d'instancier les methodes utiles au démarrage du jeu
- * Ou à la recharge du jeu si une partie est présente dans le localStorage
+ * Instancie et ajoute des propriétés nécessaire à la gestion du jeu
+ * e.g -> la grille, le score, etc...
+ * la méthode est appelés dans le constructeur
  */
 GameControl.prototype.setup = function () {
     'use strict';
@@ -61,7 +61,8 @@ GameControl.prototype.setup = function () {
 /* ----------------- */
 
 /**
- * Génére aléatoirement des cases par rapport aux cases générée en début de partie
+ * Génére des tiles en fonction du nbr définit dans le constructeur
+ * Appel la méthode addRandomTiles() tant que la boucle vaut true
  */
 GameControl.prototype.addStartTiles = function () {
     'use strict';
@@ -73,7 +74,9 @@ GameControl.prototype.addStartTiles = function () {
 };
 
 /**
- * Ajoute une case aléatoirement
+ * Génére aléatoirement la valeur de la tile 
+ * Soit 2, soit 4
+ * Gère l'ajout des tiles sur l'écran de jeu
  */
 GameControl.prototype.addRandomTiles = function () {
     'use strict';
@@ -89,7 +92,9 @@ GameControl.prototype.addRandomTiles = function () {
 };
 
 /**
- * [[Description]]
+ * Actualise l'écran de jeu
+ * Si la partie est sauvegarder dans le localStorage
+ * Alors on pourrait récupère les valeurs pour les afficher à l'écran
  */
 GameControl.prototype.actualize = function () {
     'use strict';
@@ -100,21 +105,6 @@ GameControl.prototype.actualize = function () {
         won: this.won,
         finished: this.gameFinish()
     });
-};
-
-/**
- * Gère l'état de la partie en cours
- * @returns {object} [Représente la partie en cours]
- */
-GameControl.prototype.serialize = function () {
-    'use strict';
-    return {
-        grid: this.grid.serialize(),
-        score: this.score,
-        loose: this.loose,
-        won: this.won,
-        continue: this.continue
-    };
 };
 
 /**
@@ -131,26 +121,30 @@ GameControl.prototype.gameFinish = function () {
 
 /**
  * Redémarre le jeu
+ * resetMSG() -> efface les msgs de fin de partie
+ * Rappel la méthode setup()
  */
 GameControl.prototype.restart = function () {
     'use strict';
-    this.htmlControl.continuePlay();
+    this.htmlControl.resetMSG();
     this.setup();
 };
 
 /**
  * Continue la partie après avoir fait 2048
+ * On passe la propriété à true signifiant que le jeu continue
  */
 GameControl.prototype.continue = function () {
     'use strict';
-    // ## On passe la propriété à true signifiant que le jeu continue
     this.continue = true;
-    this.htmlControl.continuePlay();
+    this.htmlControl.resetMSG();
 
 };
 
 /**
- * [[Description]]
+ * Sauvegarde les informations de positions des tiles
+ * Supprime les informations de fusions
+ * x et y sont définit dans la méthode de l'objet GridControl
  */
 GameControl.prototype.prepareTiles = function () {
     'use strict';
@@ -164,7 +158,7 @@ GameControl.prototype.prepareTiles = function () {
 };
 
 /**
- * [[Description]]
+ * Gère les déplacements des cases
  * @param {object} tile [[Description]]
  * @param {object} cell [[Description]]
  */
@@ -177,13 +171,15 @@ GameControl.prototype.moveTile = function (tile, cell) {
 };
 
 /**
- * [[Description]]
- * @param {[[Type]]} direction [[Description]]
+ * Gère le déplacement de la case choisi par le joueur
+ * en fonction de la direction choisi
+ * @param {number} direction [Direction choisit par le joueur
+ *                           voir KeyboardControl pour les références de valeur]
  */
 GameControl.prototype.moveGrid = function (direction) {
     'use strict';
-
-    // Garde la référence à l'objet appelé
+    // ## 0: up, 1: right, 2: down, 3: left
+    // ## self garde la référence à l'objet appelé
     var self = this,
         cell,
         tile,
@@ -208,32 +204,37 @@ GameControl.prototype.moveGrid = function (direction) {
                 var positions = self.findFarthestPosition(cell, vector),
                     next = self.grid.cellContent(positions.next),
                     merged;
-
+                // Si next est définit et que la valeur de next et égale à la valeur de la tile 
+                // alors on merge les tiles et on multiplie la valeur par 2
                 if (next && next.value === tile.value && !next.mergedTile) {
                     merged = new TileControl(positions.next, tile.value * 2);
                     merged.mergedTile = [tile, next];
 
+                    // ## On insert une tile qui correspond à la nouvelle valeur de merged
                     self.grid.insertTile(merged);
                     self.grid.removeTile(tile);
 
                     tile.updatePosition(positions.next);
 
+                    // Met à jour le score par rapport à la valeur de la tile merge
                     self.score = self.score + merged.value;
                 } else {
                     self.moveTile(tile, positions.farthest);
                 }
 
+                // Si la position de la cellule est différente de la position de la tile
                 if (!self.positionEqual(cell, tile)) {
-                    moved = true; // La cas est déplacée de son point d'origine
+                    moved = true; // La case est déplacée de son point d'origine
                 }
             }
 
         });
     });
 
-    if (moved) {
+    if (moved === true) {
         this.addRandomTiles();
 
+        // Si la grille est remplie, alors la partie est perdu
         if (!this.movesAvailable()) {
             this.loose = true;
         }
@@ -242,9 +243,10 @@ GameControl.prototype.moveGrid = function (direction) {
 };
 
 /**
- * [[Description]]
- * @param   {[[Type]]} direction [[Description]]
- * @returns {[[Type]]} [[Description]]
+ * Renvoie le vecteur représentant la direction choisit
+ * @param   {number} direction [La direction choisit par le joueur]
+ * @returns {Array}  [Représente la touche appuyé
+ *                   et définit dans KeyboardControl]
  */
 GameControl.prototype.getVector = function (direction) {
     'use strict';
@@ -259,9 +261,9 @@ GameControl.prototype.getVector = function (direction) {
 };
 
 /**
- * [[Description]]
- * @param   {[[Type]]} vector [[Description]]
- * @returns {[[Type]]} [[Description]]
+ * Construit une liste de position à parcourir dans un ordre déterminée
+ * @param   {number} vector [Représente une valeur à comparer]
+ * @returns {object} [Contient x et y qui sont remplit avec les valeurs de pos]
  */
 GameControl.prototype.buildTraversals = function (vector) {
     'use strict';
@@ -285,7 +287,7 @@ GameControl.prototype.buildTraversals = function (vector) {
 
 /**
  * Trouve la position la plus éloignée de la tile
- * @param   {[[Type]]} cell   [[Description]]
+ * @param   {object} cell   [[Description]]
  * @param   {[[Type]]} vector [[Description]]
  * @returns {object}   [[Description]]
  */
@@ -300,15 +302,15 @@ GameControl.prototype.findFarthestPosition = function (cell, vector) {
         cell = { x: previous.x + vector.x, y: previous.y + vector.y };
     } while (this.grid.withinBounds(cell) &&
              this.grid.cellAvailable(cell));
-
+    
     return {
-        farthest: previous,
+        farthest: previous, // La position la plus éloignée
         next: cell // utilisé pour vérifier si une fusion est nécessaire
     };
 };
 
 /**
- * [[Description]]
+ * Il y a t'il un mouvement possible
  * @returns {[[Type]]} [[Description]]
  */
 GameControl.prototype.movesAvailable = function () {
@@ -318,13 +320,14 @@ GameControl.prototype.movesAvailable = function () {
 };
 
 /**
- * [[Description]]
- * @returns {boolean} [[Description]]
+ * Gère les disponibles
+ * pour les déplacement ainsi que pour les fusions
+ * @returns {boolean} [Renvoie true si les tiles peuvent être fusionnés, sinon false]
  */
 GameControl.prototype.tileMatchesAvailable = function () {
     'use strict';
 
-    // Garde la référence à l'objet appelé
+    // self garde la référence à l'objet appelé
     var self = this,
         tile,
         x,
@@ -337,9 +340,9 @@ GameControl.prototype.tileMatchesAvailable = function () {
     for (x = 0; x < this.size; x += 1) {
         for (y = 0; y < this.size; y += 1) {
             tile = this.grid.cellContent({ x: x, y: y });
+            
             if (tile) {
-
-                for (direction = 0; direction < 4; direction += 1) {
+                for (direction = 0; direction < this.size; direction += 1) {
                     vector = self.getVector(direction);
                     cell = { x: x + vector.x, y: y + vector.y };
 
@@ -357,7 +360,7 @@ GameControl.prototype.tileMatchesAvailable = function () {
 };
 
 /**
- * [[Description]]
+ * Vérifie si la position des cases est égal à la postion des tiles
  * @param   {object}   first  [[Description]]
  * @param   {object}   second [[Description]]
  * @returns {[[Type]]} [[Description]]
