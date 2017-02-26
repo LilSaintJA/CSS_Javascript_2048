@@ -7,14 +7,13 @@ function log(D) {
 
 /**
  * Gestion du système de grille du jeu
- * @param {int} size          [[Description]]
- * @param {bool} previousState [[Description]]
+ * @param {int} size [Taille de la grille, définit dans GameControl]
  */
-function GridControl(size, previousState) {
+function GridControl(size) {
     'use strict';
     log('Je suis le Grid Control');
     this.size = size;
-    this.cells = previousState ? this.fromState(previousState) : this.empty();
+    this.cells = this.startGame();
 }
 
 /* ------------------- */
@@ -25,10 +24,10 @@ function GridControl(size, previousState) {
  * Fonction qui créé la grille du jeu par rapport à une taille donnée (quand la grille est vide)
  * @returns {array} [Les cellules du jeu]
  */
-GridControl.prototype.empty = function () {
+GridControl.prototype.startGame = function () {
     'use strict';
 
-    log('je suis dans Empty');
+    log('je suis dans StartGame');
     var cells = [],
         x,
         y,
@@ -36,42 +35,11 @@ GridControl.prototype.empty = function () {
 
     for (x = 0; x < this.size; x += 1) {
         row = cells[x] = [];
-        //        log(row);
         for (y = 0; y < this.size; y += 1) {
             row.push(null);
         }
     }
-    //    log(cells);
     // Contient 4 tableaux qui contiennent chacun 4 index
-    return cells;
-};
-
-/**
- * [[Description]]
- * @param   {[[Type]]} state [[Description]]
- * @returns {array} [Tableau contenant les lignes et le colonnes de la grille]
- */
-GridControl.prototype.fromState = function (state) {
-    'use strict';
-    log('je suis dans fromState');
-
-    var cells = [],
-        x,
-        y,
-        row,
-        tile;
-
-    for (x = 0; x < this.size; x += 1) {
-        row = cells[x] = [];
-
-        for (y = 0; y < this.size; y += 1) {
-            tile = state[x][y];
-            log('Tile fromState');
-            log(tile);
-            row.push(tile ? new TileControl(tile.position, tile.value) : null);
-        }
-    }
-    log(cells);
     return cells;
 };
 
@@ -90,7 +58,6 @@ GridControl.prototype.randomAvailableCells = function () {
 
     // Si cells à une longueur
     if (cells.length) {
-        //        log(cells[Math.floor(Math.random() * cells.length)]);
         // Génére aléatoirement un nombre compris entre 0 et 3
         return cells[Math.floor(Math.random() * cells.length)];
     }
@@ -111,7 +78,7 @@ GridControl.prototype.availableCells = function () {
             cells.push({ x: x, y: y});
         }
     });
-    //    log(cells);
+
     return cells;
 };
 
@@ -136,7 +103,7 @@ GridControl.prototype.eachCells = function (callback) {
  */
 GridControl.prototype.cellsAvailable = function () {
     'use strict';
-    return !!this.availableCells().length;
+    return this.availableCells().length;
 };
 
 /**
@@ -151,7 +118,7 @@ GridControl.prototype.cellAvailable = function (cell) {
 
 GridControl.prototype.cellOccupied = function (cell) {
     'use strict';
-    return !!this.cellContent(cell);
+    return this.cellContent(cell);
 };
 
 /**
@@ -163,8 +130,6 @@ GridControl.prototype.cellContent = function (cell) {
     'use strict';
     if (this.withinBounds(cell)) {
         return this.cells[cell.x][cell.y];
-    } else {
-        return null;
     }
 };
 
@@ -181,6 +146,11 @@ GridControl.prototype.insertTile = function (tile) {
     this.cells[tile.x][tile.y] = tile;
 };
 
+GridControl.prototype.removeTile = function (tile) {
+    'use strict';
+    this.cells[tile.x][tile.y] = null;
+};
+
 /**
  * Détermine les limites des cellules de la grille
  * @param {object} position [La position des cellules dans la grille]
@@ -188,14 +158,14 @@ GridControl.prototype.insertTile = function (tile) {
 GridControl.prototype.withinBounds = function (position) {
     'use strict';
 
-    //    if (position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size) {
-    //        return {
-    //            x: position.x,
-    //            y: position.y
-    //        };
-    //    }
-    return position.x >= 0 && position.x < this.size &&
-        position.y >= 0 && position.y < this.size;
+    if (position.x >= 0 && position.x < this.size && position.y >= 0 && position.y < this.size) {
+        return {
+            x: position.x,
+            y: position.y
+        };
+    }
+    //    return position.x >= 0 && position.x < this.size &&
+    //        position.y >= 0 && position.y < this.size;
 };
 
 /**

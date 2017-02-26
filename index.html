@@ -12,7 +12,6 @@
         <script src="script/GridControl.js"></script>
         <script src="script/TileControl.js"></script>
         <script src="script/HTMLControl.js"></script>
-        <script src="script/LocalStorageControl.js"></script>
         <script src="script/GameControl.js"></script>
 
         <title>2048</title>
@@ -20,19 +19,24 @@
     <body>
         <div class="container">
             <div class="row">
-                <h1 class="main-title"><span class="title-game">2048</span> W@C édition</h1>
+                <div class="title-container">
+                    <h1 class="title-game">2048 </h1>
+                    <span class="game-edition">W@C édition</span>
+                </div>
                 <div class="score-container">
                     <span class="title-score">Score</span>
                     <span class="score">0</span>
                 </div>
                 <div class="best-container">
-                    <span class="title-score">Score</span>
+                    <span class="title-score">Pudding</span>
                     <span class="score">0</span>
                 </div>
             </div>
             <div class="row">
-                <h2 class="second-title">Fusionner les chiffres et faîtes 2048</h2>
-                <div class="new-game">new game</div>
+                <h2 class="second-title">Fusionner les chiffres et faîtes <strong class="important">2048</strong></h2>
+                <div class="new-game">
+                    <a href="" class="btn btn-game btn-large restart-game">Nouvelle partie</a>
+                </div>
             </div>
             <div class="row">
                 <!-- div contenant le tableau du jeu -->
@@ -40,8 +44,8 @@
                     <!-- div contenant le message en cas de succès ou d'échec -->
                     <div class="game-msg">
                         <p class="msg"></p>
-                        <a href="" class="btn btn-game continue">Continue</a>
-                        <a href="" class="btn btn-game retry">Réessayer</a>
+                        <a href="" class="btn btn-game btn-large continue">Continue</a>
+                        <a href="" class="btn btn-game btn-large retry">Réessayer</a>
                     </div><!-- End Of .game-msg -->
                     <!-- div contenant la grille du jeu -->
                     <div class="grid-game">
@@ -85,12 +89,11 @@
                     <strong class="important how-play">Comment jouer : </strong>
                     Utiliser les <strong class="important">flèches directionnelles</strong> pour déplacer les cases. Lorsque 2 cases avec le même chiffre sont côte à côte, alors <strong class="important">elles fusionnent en une seule.</strong>
                     Le but étant de faire une tuile de la valeur <strong class="important">2048 !</strong>
-                    <strong class="important">La touche R</strong> permet de recharger la page.
                 </p>
             </div><!-- End Of .game-rules -->
         </div>
         <footer class="main-footer">
-            <span class="copyright">2048 &copy; LilSaint - Web@cademie Ambition Féminine</span>
+            <span class="copyright">2048 &copy; LilSaint - W@C Ambition Féminine - Promo 2016-2018</span>
         </footer>
     </body>
 </html>

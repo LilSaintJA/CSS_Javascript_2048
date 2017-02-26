@@ -11,64 +11,78 @@
     z-index: 10;
 }
 
-.tile {
-    position: absolute;
-}
 
-.tile .tile-inner {
+
+.tile-inner {
     color: @color-bg-3;
     font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 3rem;
     font-weight: bold;
-    line-height: 107px;
 }
+
+
+.tile-new .tile-inner {
+    .animation(appear 200ms ease 100ms);
+    .animation-fill-mode(@animation:backwards);
+}
+
+.tile-merged .tile-inner {
+    z-index: 20;
+    .animation(pop 200ms ease 100ms);
+    .animation-fill-mode(@animation:backwards);
+}
+
 
 /* Couleur des tiles en fonction de leur value */
 .tile.tile-2 .tile-inner {
     background-color: @color-blue-1;
-    //    .box-shadow(0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0));
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
+
 }
 .tile.tile-4 .tile-inner {
-    background-color: @color-blue-3;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
+    background-color: @color-blue-2;
+
 }
 
 .tile.tile-8 .tile-inner {
-    background-color: @color-blue-3;
-    box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
+    background-color: @color-green-1;
+
 }
 
 .tile.tile-16 .tile-inner {
-    background-color: @color-blue-4;
-}
-
-.tile.tile-32 .tile-inner {
     background-color: @color-green-0;
 }
 
+.tile.tile-32 .tile-inner {
+    background-color: @color-orange-1;
+}
+
 .tile.tile-64 .tile-inner {
-    background-color: @color-green-1;
+    background-color: @color-orange-2;
 }
 
 .tile.tile-128 .tile-inner {
-    background-color: @color-green-2;
+    background-color: @color-yellow-1;
+    box-shadow: 0 0 30px 10px @rgba-yellow-1, inset 0 0 30px 10px rgba(255, 255, 255, .1);
 }
 
 .tile.tile-256 .tile-inner {
-    background-color: @color-green-3;
+    background-color: @color-yellow-2;
+    box-shadow: 0 0 30px 10px @rgba-yellow-2, inset 0 0 30px 10px rgba(255, 255, 255, .1);
 }
 
 .tile.tile-512 .tile-inner {
-    background-color: @color-green-4;
+    background-color: @color-rouge-1;
+    box-shadow: 0 0 30px 10px @rgba-rouge-1, inset 0 0 30px 10px rgba(255, 255, 255, .1);
 }
 
 .tile.tile-1024 .tile-inner {
-    background-color: @color-bg-3;
+    background-color: @color-gray-1;
+    box-shadow: 0 0 30px 10px @rgba-gray-1, inset 0 0 30px 10px rgba(255, 255, 255, .1);
 }
 
 .tile.tile-2048 .tile-inner {
-    background-color: @color-blue-5;
+    background-color: @color-gray-2;
+    box-shadow: 0 0 30px 10px @rgba-gray-2, inset 0 0 30px 10px rgba(255, 255, 255, .1);
 }
 
 /* tile-position */

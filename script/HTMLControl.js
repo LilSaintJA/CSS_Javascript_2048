@@ -17,17 +17,12 @@ function HTMLControl() {
 
     // Selecteur de div nécessaire pour le jeu
     this.tileContainer      = document.querySelector('.tuile-container');
-    this.scoreContainer     = document.querySelector('.score-container');
+    this.scoreContainer     = document.querySelector('.score');
     this.bestContainer      = document.querySelector('.best-container');
     this.msgContainer       = document.querySelector('.game-msg');
 
     this.score = 0;
 
-    //    this.addTile(this);
-
-    log('TileContainer');
-    log(this.tileContainer);
-    //    log(this.bestContainer);
 }
 
 // *** Ajout de méthode à HTMLControl
@@ -47,7 +42,6 @@ HTMLControl.prototype.actualize = function (grid, metadata) {
     // Garde la référence à l'objet
     var self = this;
 
-    //    window.requestAnimationFrame(function () {
     // Efface les divs
     self.resetContainer(self.tileContainer);
     // Parcour les cellules de la grille
@@ -56,15 +50,33 @@ HTMLControl.prototype.actualize = function (grid, metadata) {
         column.forEach(function (cell) {
             // ## Si il y a une cellule de dispo
             if (cell) {
-                //                log('Cell HTMLControl');
-                //                log(cell);
                 self.addTile(cell);
             }
         });
     });
 
     // Ajout des méthodes pour le score
-    //    });
+
+    self.updateScore(metadata.score);
+
+    if (metadata.finished) {
+        if (metadata.loose) {
+            self.msg(false);
+        } else if (metadata.won) {
+            self.msg(true);
+        }
+    }
+};
+
+/**
+ * [[Description]]
+ * @param {[[Type]]} container [[Description]]
+ */
+HTMLControl.prototype.resetContainer = function (container) {
+    'use strict';
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
 };
 
 /**
@@ -82,43 +94,37 @@ HTMLControl.prototype.addTile = function (tile) {
         position = tile.previousPosition || { x: tile.x, y: tile.y },
         classPosition = this.positionClass(position),
         classes = ['tile', 'tile-' + tile.value, classPosition];
-    //    log(classes);
-    //    log('tile');
-    //    log(tile);
-    //    log('previousPosition');
-    //    log(tile.previousPosition);
 
     // Si le joueur fait 2048
     if (tile.value > 2048) {
         classes.push('tile-2048');
     }
 
+    //    this.applyClasses(tileWrapper, classes);
+
     // ## Ajout de la classe .tile-inner à la div tileInner
     // ## .tile-inner contient la div avec la value
     tileInner.classList.add("tile-inner");
-    //    log(tileInner.addClass('tile-inner'));
     // Ajout de la valeur de la tile dans le HTML
     tileInner.textContent = tile.value;
 
     // Si il y a déjà une position 
     if (tile.previousPosition) {
-        //        window.requestAnimationFrame(function () {
-        // ## Récupère le 3ème index du tableau classes -> tile.value
+        log('Je passe dans la condition');
+        // ## Récupère le 3ème index du tableau classes -> classPosition
         classes[2] = self.positionClass({ x: tile.x, y: tile.y });
         self.applyClasses(tileWrapper, classes);
-        //        });
-        // Ou si il y un merge entre 2 tiles
-    } else if (tile.mergedFrom) {
+        // ## Ou si il y un merge entre 2 tiles
+    } else if (tile.mergedTile) {
         classes.push('tile-merged');
         this.applyClasses(tileWrapper, classes);
 
-        // Rendu des cases qui ont fusionnées
-        tile.mergedFrom.forEach(function (merged) {
+        // ## Rendu des cases qui ont fusionnées
+        tile.mergedTile.forEach(function (merged) {
             self.addTile(merged);
         });
-        // Sinon charge une nouvelle tile
+        // ## Sinon charge une nouvelle tile avec la classe tile-new
     } else {
-        //        log('Je passe dans le else');
         classes.push('tile-new');
         this.applyClasses(tileWrapper, classes);
     }
@@ -142,7 +148,6 @@ HTMLControl.prototype.addTile = function (tile) {
  */
 HTMLControl.prototype.normalizeClass = function (position) {
     'use strict';
-    //    log({ x: position.x + 1, y: position.y + 1 });
     return { x: position.x + 1, y: position.y + 1 };
 };
 
@@ -153,7 +158,6 @@ HTMLControl.prototype.normalizeClass = function (position) {
 HTMLControl.prototype.positionClass = function (position) {
     'use strict';
     position = this.normalizeClass(position);
-    //    log('tile-position-' + position.x + '-' + position.y);
     return 'tile-position-' + position.x + '-' + position.y;
 };
 
@@ -164,7 +168,6 @@ HTMLControl.prototype.positionClass = function (position) {
  */
 HTMLControl.prototype.applyClasses = function (ele, classes) {
     'use strict';
-    //    log('ApplyClasses');
     // ## Récupère la classe des div, et réunit ces classes avec celle présente dans le tableau classes[] avec un espace
     ele.setAttribute('class', classes.join(" "));
 };
@@ -179,6 +182,22 @@ HTMLControl.prototype.applyClasses = function (ele, classes) {
  */
 HTMLControl.prototype.updateScore = function (score) {
     'use strict';
+
+    this.resetContainer(this.scoreContainer);
+
+    var difference = score - this.score,
+        addition;
+    this.score = score;
+
+    this.scoreContainer.innerHTML = this.score;
+
+    if (difference > 0) {
+        addition = document.createElement("div");
+        addition.classList.add("score-addition");
+        addition.textContent = '+' + difference;
+
+        this.scoreContainer.append(addition);
+    }
 };
 
 /**
@@ -200,17 +219,23 @@ HTMLControl.prototype.updateBestScore = function (bestScore) {
  */
 HTMLControl.prototype.msg = function (won) {
     'use strict';
-    var type = won ? '2048' : 'looser',
+    log('Je suis le msg de looser ou de winner');
+    var type    = won ? 'winner' : 'looser',
         message = won ? 'Gagné 2048 tu as' : 'Vaincu par 2048 tu es';
 
-    this.msgContainer.addClass(type);
-    this.msgContainer.$('.msg').text(message);
+    this.msgContainer.classList.add(type);
+    var test = document.querySelector('.msg');
+    test.textContent = message;
+
 };
 
+/**
+ * [[Description]]
+ */
 HTMLControl.prototype.resetMSG = function () {
     'use strict';
-    //    this.msgContainer.removeClass('2048');
-    //    this.msgContainer.removeClass('looser');
+    this.msgContainer.classList.remove('winner');
+    this.msgContainer.classList.remove('looser');
 };
 
 /* -------------- */
@@ -219,19 +244,8 @@ HTMLControl.prototype.resetMSG = function () {
 
 /**
  * [[Description]]
- * @param {[[Type]]} container [[Description]]
- */
-HTMLControl.prototype.resetContainer = function (container) {
-    'use strict';
-    while (container.firstChild) {
-        container.removeChild(container.firstChild);
-    }
-};
-
-/**
- * [[Description]]
  */
 HTMLControl.prototype.continuePlay = function () {
     'use strict';
-    this.resetContainer();
+    this.resetMSG();
 };

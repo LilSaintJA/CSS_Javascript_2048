@@ -208,6 +208,13 @@
     animation: @arguments;
 }
 
+.animation-fill-mode(@animation:none) {
+    -moz-animation-fill-mode: @animation;
+    -webkit-animation-fill-mode: @animation;
+    -o-animation-fill-mode: @animation;
+    animation-fill-mode: @animation;
+}
+
 .animation-none(@animation:none) {
     -moz-animation: @animation !important;
     -webkit-animation: @animation !important;
@@ -257,3 +264,23 @@
 // ---------------------------
 // """***""" Special Effects
 //
+
+@keyframes appear {
+    0% { .transform-scale(@scale:scale(0)); }
+    100% { .transform-scale(@scale:scale(1)); }
+}
+
+@keyframes pop {
+    0% { .transform-scale(@scale:scale(0)); }
+    50% { .transform-scale(@scale:scale(1.2)); }
+    100% { .transform-scale(@scale:scale(1)); }
+}
+
+@keyframes move-up {
+    0% {
+        top: 25px;
+        opacity: 1; }
+
+    100% {
+        top: -50px;
+        opacity: 0; } }

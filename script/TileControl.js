@@ -23,6 +23,7 @@ function TileControl(position, value) {
     this.value = value || 2;
 
     this.previousPosition = null;
+    this.mergedTile = null;
 
     //    log(this.x);
     //    log(this.y);
@@ -38,8 +39,6 @@ TileControl.prototype.savePosition = function () {
     // ## this.x -> la valeur
     // ## Débug console navigateur -> x et y sont undefined
     this.previousPosition = { x: this.x, y: this.y };
-    log('Sauvegarde des positions initiale des tiles');
-    log(this.previousPosition);
 };
 
 /**

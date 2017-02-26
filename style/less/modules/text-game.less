@@ -9,6 +9,10 @@
     font-size: @h1-size;
 }
 
+.game-edition {
+    font-family: @font-heading;
+}
+
 /* h2 */
 .title-rules {
     margin-bottom: 15px;
@@ -16,19 +20,23 @@
 
 /* strong */
 .important {
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .how-play {
     text-transform: uppercase;
 }
 
+.title-container {
+    margin-right: 55px;
+}
+
 .score-container,
 .best-container {
     position: relative;
     .flex(@direction:column);
-    height: 80px;
-    padding: 15px 20px;
+    height: 90px;
+    padding: 20px 25px;
     border-radius: 5px;
     margin-left: 30px;
     background-color: @color-bg-4;
@@ -46,6 +54,15 @@
     .score {
         font-family: @font-heading;
         font-size: @h6-size;
+
+        .score-addition {
+            position: absolute;
+            font-size: 2.5rem;
+            color: #19DE9D;
+            text-shadow: 1px 1px 2px #000;
+            .animation(move-up 1s ease-in);
+            .animation-fill-mode(@animation:both);
+        }
     }
 }
 
@@ -56,7 +73,42 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(238, 228, 218, 0.5);
+    background: rgba(195, 240, 255, 0.8);
     z-index: 100;
     text-align: center;
+
+    .msg {
+        font-size: @h3-size;
+        font-weight: 600;
+        margin-bottom: 100px;
+    }
+
+    &.looser {
+        .flex(@direction:column);
+        .justify-content;
+        .align-items;
+
+        .continue {
+            display: none;
+        }
+    }
+
+    &.winner {
+        .flex(@direction:column);
+        .justify-content;
+        .align-items;
+
+        .retry {
+            display: none;
+        }
+    }
+}
+
+.second-title {
+    width: 50%;
+    line-height: 30px;
+}
+
+.new-game {
+    margin-left: 78px;
 }

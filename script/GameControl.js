@@ -1,4 +1,4 @@
-/*global console, $, jQuery, document, window, GridControl, Grid, TileControl */
+/*global console, $, jQuery, document, window, GridControl, Grid, TileControl, KeyboardControl, HTMLControl */
 
 /**
  * Fonction de débug
@@ -10,26 +10,27 @@ function log(D) {
 }
 /**
  * Gestionnaire du jeu
- * @param {int} size           [Taille de la grille]
- * @param {object} InputControl   [Class qui gère les touches clavier]
- * @param {object} HTMLControl    [Class qui gère l'interface graphique du jeu]
- * @param {object} StorageControl [Class qui gère le localStorage, pour sauvegarder la partie en cours, le meilleurs scores, ect]
+ * @param {object} KeyControl  [Objet qui gère le déplacement par le clavier]
+ * @param {object} HTMLControl [Class qui gère l'interface graphique du jeu]
  */
-function GameControl(size, KeyControl, HTMLControl, StorageControl) {
+function GameControl(KeyControl, HTMLControl) {
     'use strict';
     console.log('Je suis le game control');
 
-    this.size               = size;
+    // ## Taille de la grille
+    this.size               = 4;
     this.keyControl         = new KeyControl(); // KeyboardControl
-    this.storageControl     = new StorageControl();
-    this.htmlControl        = new HTMLControl();
+    this.htmlControl        = new HTMLControl(); // HTMLControl
 
-    // ## Nbr de tile générer en début de partie
+    // ## Nbr de tile générée en début de partie
     this.startTiles         = 2;
 
-    // ## Appel des méthodes de mouvement
+    // ## Appel de la méthode pour déplacer les tile
     this.keyControl.onEvent('move', this.moveGrid.bind(this));
+    this.keyControl.onEvent('retry', this.restart.bind(this));
+    this.keyControl.onEvent('continue', this.continue.bind(this));
 
+    // ## Appel de la méthode setup
     this.setup();
 }
 
@@ -44,24 +45,13 @@ function GameControl(size, KeyControl, HTMLControl, StorageControl) {
 GameControl.prototype.setup = function () {
     'use strict';
 
-    var previousState = this.storageControl.getGameState();
+    this.grid       = new GridControl(this.size);
+    this.score      = 0;
+    this.loose      = false;
+    this.won        = false;
+    this.continue   = false;
 
-    // ## Si une partie existe déjà relance le jeu à partir de celle-ci
-    if (previousState) {
-        this.grid       = new GridControl(previousState.grid.size, previousState.grid.cells);
-        this.score      = previousState.score;
-        this.over       = previousState.over;
-        this.won        = previousState.won;
-        this.continue   = previousState.continue;
-    } else {
-        this.grid       = new GridControl(this.size);
-        this.score      = 0;
-        this.over       = false;
-        this.won        = false;
-        this.continue   = false;
-
-        this.addStartTiles();
-    }
+    this.addStartTiles();
 
     this.actualize();
 };
@@ -94,7 +84,6 @@ GameControl.prototype.addRandomTiles = function () {
         value = Math.random() < 0.9 ? 2 : 4;
 
         tile = new TileControl(this.grid.randomAvailableCells(), value);
-        log(tile);
         this.grid.insertTile(tile);
     }
 };
@@ -106,28 +95,69 @@ GameControl.prototype.actualize = function () {
     'use strict';
 
     this.htmlControl.actualize(this.grid, {
-        over: this.over
+        score: this.score,
+        loose: this.loose,
+        won: this.won,
+        finished: this.gameFinish()
     });
-    log(this.htmlControl);
 };
 
 /**
- * [[Description]]
- * @returns {object} [[Description]]
+ * Gère l'état de la partie en cours
+ * @returns {object} [Représente la partie en cours]
  */
 GameControl.prototype.serialize = function () {
     'use strict';
     return {
-        grid: this.grid.serialize()
+        grid: this.grid.serialize(),
+        score: this.score,
+        loose: this.loose,
+        won: this.won,
+        continue: this.continue
     };
 };
 
+/**
+ * Gère la fin de partie
+ * @returns {boolean} true 
+ * [Si le joueur à perdu ou si le joueur à gagnée && qu'il ne continue pas la partie]
+ */
+GameControl.prototype.gameFinish = function () {
+    'use strict';
+    if (this.loose || (this.won && !this.continue)) {
+        return true;
+    }
+};
+
+/**
+ * Redémarre le jeu
+ */
+GameControl.prototype.restart = function () {
+    'use strict';
+    this.htmlControl.continuePlay();
+    this.setup();
+};
+
+/**
+ * Continue la partie après avoir fait 2048
+ */
+GameControl.prototype.continue = function () {
+    'use strict';
+    // ## On passe la propriété à true signifiant que le jeu continue
+    this.continue = true;
+    this.htmlControl.continuePlay();
+
+};
+
+/**
+ * [[Description]]
+ */
 GameControl.prototype.prepareTiles = function () {
     'use strict';
 
     this.grid.eachCells(function (x, y, tile) {
         if (tile) {
-            tile.mergedFrom = null;
+            tile.mergedTile = null;
             tile.savePosition();
         }
     });
@@ -141,15 +171,9 @@ GameControl.prototype.prepareTiles = function () {
 GameControl.prototype.moveTile = function (tile, cell) {
     'use strict';
 
-    log(tile);
-    log(cell);
-
     this.grid.cells[tile.x][tile.y] = null;
     this.grid.cells[cell.x][cell.y] = tile;
-    //    log(tile);
     tile.updatePosition(cell);
-    log('tile moveTile');
-    log(tile.updatePosition(cell));
 };
 
 /**
@@ -167,11 +191,8 @@ GameControl.prototype.moveGrid = function (direction) {
         traversals,
         moved = false;
 
-    log('self');
-    log(self);
-
-    vector = this.getVector(direction);
-    traversals = this.buildTraversals(vector);
+    vector          = this.getVector(direction);
+    traversals      = this.buildTraversals(vector);
 
     this.prepareTiles();
 
@@ -179,34 +200,43 @@ GameControl.prototype.moveGrid = function (direction) {
         traversals.y.forEach(function (y) {
             // Récupère toutes les coordonées de x et y dans la grille
             cell = { x: x, y: y };
-            log('cell moveGrid');
-            log(cell);
             // Récupère la position de la tile dans la grille
             tile = self.grid.cellContent(cell);
-            log('tile moveGrid');
-            log(tile);
 
             // Si une tile est trouvé dans la grille
             if (tile) {
-                log('Je passe dans la condition tile');
-                log(tile);
                 var positions = self.findFarthestPosition(cell, vector),
-                    next = self.grid.cellContent(positions.next);
-                //                log(positions);
-                //                log(next);
-                //                log('je suis la');
-                self.moveTile(tile, positions.farthest);
-                
+                    next = self.grid.cellContent(positions.next),
+                    merged;
+
+                if (next && next.value === tile.value && !next.mergedTile) {
+                    merged = new TileControl(positions.next, tile.value * 2);
+                    merged.mergedTile = [tile, next];
+
+                    self.grid.insertTile(merged);
+                    self.grid.removeTile(tile);
+
+                    tile.updatePosition(positions.next);
+
+                    self.score = self.score + merged.value;
+                } else {
+                    self.moveTile(tile, positions.farthest);
+                }
+
                 if (!self.positionEqual(cell, tile)) {
-                    log('je passe dans la condition');
-                    moved = true;
+                    moved = true; // La cas est déplacée de son point d'origine
                 }
             }
 
         });
     });
+
     if (moved) {
         this.addRandomTiles();
+
+        if (!this.movesAvailable()) {
+            this.loose = true;
+        }
         this.actualize();
     }
 };
@@ -222,10 +252,9 @@ GameControl.prototype.getVector = function (direction) {
     var map = {
         0: {x: 0, y: -1 }, // haut
         1: {x: 1, y: 0 }, // droite
-        2: {x: 0, y: 1 }, // gauche
-        3: {x: -1, y: 0 } // bas
+        2: {x: 0, y: 1 }, // bas
+        3: {x: -1, y: 0 } // gauche
     };
-
     return map[direction];
 };
 
@@ -269,11 +298,12 @@ GameControl.prototype.findFarthestPosition = function (cell, vector) {
     do {
         previous = cell;
         cell = { x: previous.x + vector.x, y: previous.y + vector.y };
-    } while (this.grid.withinBounds(cell) && this.grid.cellAvailable(cell));
+    } while (this.grid.withinBounds(cell) &&
+             this.grid.cellAvailable(cell));
 
     return {
         farthest: previous,
-        next: cell
+        next: cell // utilisé pour vérifier si une fusion est nécessaire
     };
 };
 
@@ -287,6 +317,10 @@ GameControl.prototype.movesAvailable = function () {
     return this.grid.cellsAvailable() || this.tileMatchesAvailable();
 };
 
+/**
+ * [[Description]]
+ * @returns {boolean} [[Description]]
+ */
 GameControl.prototype.tileMatchesAvailable = function () {
     'use strict';
 
@@ -303,18 +337,17 @@ GameControl.prototype.tileMatchesAvailable = function () {
     for (x = 0; x < this.size; x += 1) {
         for (y = 0; y < this.size; y += 1) {
             tile = this.grid.cellContent({ x: x, y: y });
-            log(tile);
             if (tile) {
 
                 for (direction = 0; direction < 4; direction += 1) {
                     vector = self.getVector(direction);
-                    cell = {x: x + vector.x, y: y + vector.y };
+                    cell = { x: x + vector.x, y: y + vector.y };
 
                     other = self.grid.cellContent(cell);
 
                     // Si les 2 tiles sont de la même valeur elles peuvent être fusionnées
                     if (other && other.value === tile.value) {
-                        return true;
+                        return true; // Les deux tiles peuvent être fusionnés
                     }
                 }
             }
@@ -331,7 +364,5 @@ GameControl.prototype.tileMatchesAvailable = function () {
  */
 GameControl.prototype.positionEqual = function (first, second) {
     'use strict';
-    //    log(first.x);
-    //    log(second);
     return first.x === second.x && first.y === second.y;
 };

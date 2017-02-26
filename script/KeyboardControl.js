@@ -17,8 +17,6 @@ function KeyboardControl() {
     'use strict';
     log('Je suis le KeyboardControl');
     this.events = {};
-    //    log(this.events);
-    //    log(this.listen);
     // Appel de la méthode listen qui gére l'écouteur de touche clavier
     this.listen();
 }
@@ -34,7 +32,6 @@ function KeyboardControl() {
  */
 KeyboardControl.prototype.onEvent = function (evt, callback) {
     'use strict';
-    log('onEvent');
 
     if (!this.events[evt]) {
         this.events[evt] = [];
@@ -43,10 +40,14 @@ KeyboardControl.prototype.onEvent = function (evt, callback) {
     this.events[evt].push(callback);
 };
 
+/**
+ * [[Description]]
+ * @param {[[Type]]} evt  [[Description]]
+ * @param {[[Type]]} data [[Description]]
+ */
 KeyboardControl.prototype.emitEvent = function (evt, data) {
     'use strict';
     // Quand j'appuie sur une touche la fonction est appelé
-    //    log('emitEvent');
 
     var callbacks = this.events[evt];
     //    log(callbacks);
@@ -60,6 +61,10 @@ KeyboardControl.prototype.emitEvent = function (evt, data) {
     }
 };
 
+//KeyboardControl.prototype.restart = function () {
+//    
+//}
+
 /**
  * Fonction qui écoute les touches du clavier
  */
@@ -71,21 +76,21 @@ KeyboardControl.prototype.listen = function () {
             39: 1, // Touche RIGHT
             40: 2, // Touche DOWN
             37: 3  // Touche LEFT
-        };
+        },
+        btnRetry = $('.retry'),
+        btnContinue = $('.continue'),
+        btnNewGame = $('.restart-game');
 
     /**
      * Ecoute les fléches du clavier
      * @param {[[Type]]} document).keydown(function (event [[Description]]
      */
-    $(document).keydown(function (event) {
-        //        log('Je passe dans l\'event');
+    document.addEventListener('keydown', function (event) {
 
         // Rassemble les touches de ALT, CRTL, SHIFT
         var specialKey = event.altKey || event.ctrlKey || event.shiftKey,
             // Récupère la valeur des touches clavier initialisée dans l'objet map
             mapped = map[event.which];
-
-        //        log(specialKey);
 
         if (!specialKey) {
             if (mapped !== undefined) {
@@ -94,5 +99,25 @@ KeyboardControl.prototype.listen = function () {
                 self.emitEvent('move', mapped);
             }
         }
+    });
+
+    // Ecouteurs de click
+
+    log(btnRetry);
+    log(btnContinue);
+
+    btnRetry.click(function (event) {
+        event.preventDefault();
+        self.emitEvent('retry');
+    });
+
+    btnContinue.click(function (event) {
+        event.preventDefault();
+        self.emitEvent('continue');
+    });
+
+    btnNewGame.click(function (event) {
+        event.preventDefault();
+        self.emitEvent('retry');
     });
 };
